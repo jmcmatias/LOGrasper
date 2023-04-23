@@ -7,4 +7,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Images\icon_ver1.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\icon_ver1.ico" />
+  </ItemGroup>
+
 </Project>

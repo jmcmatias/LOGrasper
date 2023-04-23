@@ -24,5 +24,16 @@ namespace LOGrasper
         {
             InitializeComponent();
         }
+        private void ButtonAddAndKeyword_click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(keyword.Text) && !keywordsList.Items.Contains(keyword.Text))
+            {
+                keywordsList.Items.Add(keyword.Text);
+                keyword.Clear();
+            }
+        }
+
+
+
     }
 }
