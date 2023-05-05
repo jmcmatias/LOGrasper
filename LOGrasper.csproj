@@ -15,4 +15,8 @@
     <Resource Include="Images\icon_ver1.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

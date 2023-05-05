@@ -13,16 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LOGrasper
+namespace LOGrasper.Components
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interação lógica para LOGrasperKeywordList.xam
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LOGrasperKeywordList : UserControl
     {
-        public MainWindow()
+        public LOGrasperKeywordList()
         {
             InitializeComponent();
         }
-     }
+    }
 }
