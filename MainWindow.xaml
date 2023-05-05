@@ -4,9 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LOGrasper"
+        xmlns:loGrasper="clr-namespace:LOGrasper"
+        xmlns:views="clr-namespace:LOGrasper.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="LOGrasper" Height="600" Width="800"
+        MinHeight="700" MinWidth="1000">
 
+    <Grid Background="#686862">
+        <views:LOGrasperSearchView></views:LOGrasperSearchView>
     </Grid>
+
 </Window>
