@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace LOGrasper.Views
 {
     /// <summary>
@@ -24,5 +25,6 @@ namespace LOGrasper.Views
         {
             InitializeComponent();
         }
+
     }
 }
