@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using LOGrasper.Models;
 using LOGrasper.ViewModels;
 
 namespace LOGrasper
@@ -14,12 +15,20 @@ namespace LOGrasper
     /// </summary>
     public partial class App : Application
     {
+        
+        public KeywordList _keywordList;
+
+        public App()
+        {
+            _keywordList = new KeywordList();
+        }
         // Para uma maior flexibilidade no arranque da APP, podem-se configurar serviços no arranque, definir o conteudo de dados, o tipo de estado da app etc..
         protected override void OnStartup(StartupEventArgs e)  
         {
             MainWindow = new MainWindow()
             {
-                DataContext = new SearchViewViewmodel()
+               DataContext = new SearchViewViewmodel(_keywordList)
+
             };
             MainWindow.Show();
 

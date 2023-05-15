@@ -11,7 +11,7 @@ namespace LOGrasper.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged; // Cada vez que uma propriedade mudar, gera um evento para que a ViewModel saiba
 
-        protected virtual void OnPropertyChanged(string? propertyName = null) // se a propertyName for null a UI vai apanhar tudo
+        protected void OnPropertyChanged(string? propertyName = null) // se a propertyName for null a UI vai apanhar tudo
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

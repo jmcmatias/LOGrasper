@@ -1,6 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using LOGrasper.Commands;
+using LOGrasper.Models;
+using System.Collections;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace LOGrasper.ViewModels;
@@ -8,41 +11,59 @@ namespace LOGrasper.ViewModels;
 public class KeywordListViewModel : ViewModelBase
 {
 
-    
-    public List<string> KeywordList = new List<string>();
+    public KeywordList _keywordList;
 
-    public KeywordListViewModel()
-    {
-        KeywordList.Add("teste");
-    }
+    private Keyword _newKeyword;
 
-    private string _keyword;
 
-    public string Keyword
+    public Keyword NewKeyword
     {
         get
         {
-            return _keyword;
+            return _newKeyword;
         }
         set
         {
-            _keyword = value;
-            OnPropertyChanged(nameof(Keyword));
+            _newKeyword = value;
+            OnPropertyChanged(nameof(NewKeyword));
         }
     }
 
+
+    
     public bool CanEdit
     {
         get
         {
-            if (KeywordList.Count>0) return true;
-            else return false;
+            //if (KeywordList.Count>0) return true;
+            //else return false;
+            return true;
         }
     }
 
-
     public ICommand AddKeywordCommand { get; }
-    public ICommand EditKeywordCommand { get; }
     public ICommand DeleteKeywordCommand { get; }
+    public ICommand EditKeywordCommand { get; }
 
+
+
+    //KeywordList display
+
+    public KeywordListViewModel(KeywordList keywordList)
+    {
+        _keywordList = keywordList;
+        Keyword test = new("teste");
+        
+        _keywordList.AddKeyword (test);
+        _newKeyword = NewKeyword;
+        AddKeywordCommand = new AddKeywordCommand(this);
+        
+    }
+
+    public KeywordListViewModel(ICommand addKeywordCommand, ICommand deleteKeywordCommand, ICommand editKeywordCommand)
+    {
+        AddKeywordCommand = addKeywordCommand;
+        DeleteKeywordCommand = deleteKeywordCommand;
+        EditKeywordCommand = editKeywordCommand;
+    }
 }

@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LOGrasper.Views"
-             xmlns:components="clr-namespace:LOGrasper.Components" xmlns:viewmodels="clr-namespace:LOGrasper.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:SearchViewViewmodel}"
+             xmlns:components="clr-namespace:LOGrasper.Components" xmlns:viewmodels="clr-namespace:LOGrasper.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:SearchViewViewmodel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -39,6 +39,11 @@
                     <ColumnDefinition Width="*"/>
 
                 </Grid.ColumnDefinitions>
+
+                <TextBlock Name="MessageDispenser"
+                           Background="Transparent"
+                           Text="{Binding MessageDispenser}"
+                           Foreground="Azure"/>
 
                 <TextBox Grid.Row="1" Grid.Column="0" Text="Select Search Root Folder" BorderBrush="Gray"  Background="Azure" FontSize="17" Height="30">
                     <TextBox.Resources>

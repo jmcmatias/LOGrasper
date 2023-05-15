@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LOGrasper.Components" xmlns:viewmodels="clr-namespace:LOGrasper.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:KeywordListViewModel}"
+             xmlns:viewmodels="clr-namespace:LOGrasper.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:KeywordListViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
 
     <Grid Background="#686862" Height="Auto">
 
@@ -24,7 +26,13 @@
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Row="0"  Grid.Column="0" Text="Insert Keyword"    BorderBrush="Gray"  Background="Azure" FontSize="17" Height="30">
+            <TextBox Name="keywordForm"
+                     Grid.Row="0"  
+                     Grid.Column="0" 
+                     Text="{Binding NewKeyword, UpdateSourceTrigger=PropertyChanged}"
+                     BorderBrush="Gray"  
+                     Background="Azure" 
+                     FontSize="17" Height="30">
                 <TextBox.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="4 0 0 4"></Setter>
@@ -39,11 +47,11 @@
                         </Setter>
                     </Style>
                 </TextBox.FocusVisualStyle>
-
             </TextBox>
 
 
-            <Button Command="{Binding AddKeywordCommand}" 
+            <Button Name="Add"
+                    Command="{Binding AddKeywordCommand}"
                     Grid.Row="0" 
                     Grid.Column="1" 
                     Content="ADD" 
@@ -60,18 +68,35 @@
             </Button>
         </Grid>
 
-        <ListView ItemsSource="{Binding KeywordList}"
-                  SelectedIndex="{Binding SelectedKeyword}"
-                  Grid.Row="1" 
-                  Height="auto" 
-                  Background="#D9D9D9"  
-                  Margin="5 5 0 0" >
+        <ListView ItemsSource="{Binding keywordList}"
+                  Grid.Row="1"
+                  Height="auto"
+                  Background="#D9D9D9"
+                  Margin="5 5 0 0" 
+                  >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Keywords" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" Text="{Binding _Keyword}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+                    
+            </ListView.View>
+            
             <ListView.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="4"></Setter>
                 </Style>
             </ListView.Resources>
-
         </ListView>
 
 
