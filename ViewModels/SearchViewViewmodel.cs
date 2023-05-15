@@ -10,18 +10,20 @@ namespace LOGrasper.ViewModels;
 
 public class SearchViewViewmodel : ViewModelBase
 {
+    public RootFolderBrowseViewModel RootFolderBrowseViewModel { get; set; }
     public KeywordListViewModel KeywordListViewModel { get; set; }
     public OutputWindowViewModel OutputWindowViewModel { get; set; }
 
     public String RootFolder = "teste"; //será ""
     
-    private string _messageDispenser;
+    private string? _messageDispenser;
 
     public string MessageDispenser { set => _messageDispenser = value; }
 
-    public SearchViewViewmodel(KeywordList keywordList)
+    public SearchViewViewmodel()
     {
-        KeywordListViewModel = new KeywordListViewModel(keywordList);
+        RootFolderBrowseViewModel = new RootFolderBrowseViewModel();
+        KeywordListViewModel = new KeywordListViewModel();
         OutputWindowViewModel = new OutputWindowViewModel();
         MessageDispenser = "TESTE";
     }

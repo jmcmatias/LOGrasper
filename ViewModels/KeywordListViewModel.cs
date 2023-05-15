@@ -1,6 +1,7 @@
 ﻿using LOGrasper.Commands;
 using LOGrasper.Models;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -11,12 +12,19 @@ namespace LOGrasper.ViewModels;
 public class KeywordListViewModel : ViewModelBase
 {
 
-    public KeywordList _keywordList;
+    private string _newKeyword;
 
-    private Keyword _newKeyword;
+    private KeywordViewModel _selectedKeyword;
 
+    public ObservableCollection<KeywordViewModel> _keywordList;
 
-    public Keyword NewKeyword
+    public IEnumerable<KeywordViewModel> KeywordList => _keywordList;
+
+    public ICommand AddKeywordCommand { get; }
+    public ICommand DeleteKeywordCommand { get; }
+    public ICommand EditKeywordCommand { get; }
+
+    public string NewKeyword
     {
         get
         {
@@ -29,8 +37,19 @@ public class KeywordListViewModel : ViewModelBase
         }
     }
 
+    public KeywordViewModel SelectedKeyword
+    {
+        get
+        {
+            return _selectedKeyword;
+        }
+        set
+        {
+            _selectedKeyword = value;
+            OnPropertyChanged(nameof(SelectedKeyword));
+        }
+    }
 
-    
     public bool CanEdit
     {
         get
@@ -41,23 +60,15 @@ public class KeywordListViewModel : ViewModelBase
         }
     }
 
-    public ICommand AddKeywordCommand { get; }
-    public ICommand DeleteKeywordCommand { get; }
-    public ICommand EditKeywordCommand { get; }
-
-
-
     //KeywordList display
 
-    public KeywordListViewModel(KeywordList keywordList)
+    public KeywordListViewModel()
     {
-        _keywordList = keywordList;
-        Keyword test = new("teste");
-        
-        _keywordList.AddKeyword (test);
-        _newKeyword = NewKeyword;
+        _keywordList = new ObservableCollection<KeywordViewModel>();
+
         AddKeywordCommand = new AddKeywordCommand(this);
-        
+        DeleteKeywordCommand = new DeleteKeywordCommand(this);
+
     }
 
     public KeywordListViewModel(ICommand addKeywordCommand, ICommand deleteKeywordCommand, ICommand editKeywordCommand)

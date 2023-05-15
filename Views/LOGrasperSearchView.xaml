@@ -33,42 +33,15 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+               
 
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Name="MessageDispenser"
+                <TextBlock Grid.Row="0" 
+                           Name="MessageDispenser"
+                           Text="MESSAGE DISPENSER"
                            Background="Transparent"
-                           Text="{Binding MessageDispenser}"
                            Foreground="Azure"/>
 
-                <TextBox Grid.Row="1" Grid.Column="0" Text="Select Search Root Folder" BorderBrush="Gray"  Background="Azure" FontSize="17" Height="30">
-                    <TextBox.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4 0 0 4"></Setter>
-                        </Style>
-                    </TextBox.Resources>
-                    <TextBox.FocusVisualStyle>
-                        <Style>
-                            <Setter Property="Control.Template">
-                                <Setter.Value>
-                                    <ControlTemplate/>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </TextBox.FocusVisualStyle>
-                </TextBox>
-
-                <Button Command="{Binding BrowseRootFolderCommand}"  Grid.Row="1" Grid.Column="1" Name="Browse"  Content="BROWSE" Background="#C57423" Width="80" HorizontalAlignment="Left" >
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="0 4 4 0"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                <components:LOGrasperRootFolderBrowse Grid.Row="1" DataContext="{Binding RootFolderBrowseViewModel}"/>
 
             </Grid>
 

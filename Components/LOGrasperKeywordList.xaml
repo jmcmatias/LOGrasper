@@ -68,29 +68,34 @@
             </Button>
         </Grid>
 
-        <ListView ItemsSource="{Binding keywordList}"
+        <ListView ItemsSource="{Binding KeywordList}"
                   Grid.Row="1"
                   Height="auto"
                   Background="#D9D9D9"
                   Margin="5 5 0 0" 
-                  >
+                  SelectedItem="{Binding SelectedKeyword}" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="stretch"/>
                 </Style>
             </ListView.ItemContainerStyle>
-            <ListView.View>
+
+              <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Keywords" >
+                    <GridViewColumn>
+                        <GridViewColumnHeader IsEnabled="False" Content="Keywords:" FontSize="16" FontWeight="Bold" Background="#D9D9D9" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch">
+                            
+                        </GridViewColumnHeader>
+
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock HorizontalAlignment="Left" Text="{Binding _Keyword}"/>
+                                <TextBlock HorizontalAlignment="Left" Text="{Binding Keyword}" Width="auto"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
+                       
                     </GridViewColumn>
                 </GridView>
-                    
-            </ListView.View>
+        </ListView.View>
             
             <ListView.Resources>
                 <Style TargetType="Border">

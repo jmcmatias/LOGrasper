@@ -13,12 +13,14 @@ namespace LOGrasper.Models
 {
     public class KeywordList
     {
-        private readonly ObservableCollection<Keyword> _keywordList;
+        private readonly ObservableCollection<string> _keywordList;
 
         public KeywordList()
         {
-            _keywordList = new ObservableCollection<Keyword>();
+            _keywordList = new ObservableCollection<string>();
         }
+
+        /*
         /// <summary>
         /// Gets keywordList
         /// </summary>
@@ -27,14 +29,14 @@ namespace LOGrasper.Models
         {
             return _keywordList;
         }
-
+        */
         /// <summary>
         /// Method for editing a keyword in the List
         /// </summary>
         /// <param name="existingKeyword">The existing keyword</param>
         /// <param name="newKeyword">The new Keyword that will replace de existing one</param>
         /// <exception cref="InvalidKeywordIndexException"></exception>
-        public void EditKeyword(Keyword existingKeyword, Keyword newKeyword)
+        public void EditKeyword(string existingKeyword, string newKeyword)
         {
             if (_keywordList.Contains(existingKeyword))
             {
@@ -50,7 +52,7 @@ namespace LOGrasper.Models
         /// </summary>
         /// <param name="keyword"></param>
         /// <exception cref="InvalidKeywordIndexException"></exception>
-        public void RemoveKeyword(Keyword keyword)
+        public void RemoveKeyword(string keyword)
         {
             if (_keywordList.Remove(keyword)) { }
 
@@ -64,9 +66,9 @@ namespace LOGrasper.Models
         /// </summary>
         /// <param name="keyword"> the keyword to insert</param>
         /// <exception cref="KeywordConflictException"></exception>
-        public void AddKeyword(Keyword keyword)
+        public void AddKeyword(string keyword)
         {
-            foreach (Keyword existingKeyword in _keywordList)
+            foreach (string existingKeyword in _keywordList)
             {
                 if (_keywordList.Contains(existingKeyword))
                 {
