@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LOGrasper.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -10,15 +12,29 @@ namespace LOGrasper.Models
 {
     public class SearchObject
     {
-        public SearchObject(string rootFolderPath, KeywordList keywordList)
+        public KeywordList _keywordList { get; set; }
+
+        public string _rootFolderPath { get; set; }
+
+        public SearchObject(string rootFolderPath, ObservableCollection<KeywordViewModel> keywordList)
         {
-            RootFolderPath = rootFolderPath;
-            KeywordList = keywordList;
+            _rootFolderPath = rootFolderPath;
+            _keywordList = ConvertListFromViewModel(keywordList);
         }
 
-        public string RootFolderPath { get; set; }
-        public KeywordList KeywordList { get; set; }
+        public static KeywordList ConvertListFromViewModel(ObservableCollection<KeywordViewModel> keywordList )
+        {
+            KeywordList kwList = new();
+            foreach ( KeywordViewModel keywordViewModel in keywordList )
+            {
+                kwList.Add(keywordViewModel.Keyword);
+            }
+            return kwList;
+
+        }
+      
         
+
 
     }
 }

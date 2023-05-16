@@ -14,14 +14,14 @@
             <ColumnDefinition Width="*"/>
 
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding _rootFolder}"  Background="Azure" FontSize="17" Height="30" IsEnabled="False">
-            <TextBlock.Resources>
+        <TextBox x:Name="RootFolderPathTextBox"  Grid.Row="1" Grid.Column="0" Text="{Binding RootFolderPath}"  Background="Azure" FontSize="15" Height="30">
+            <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="4 0 0 4"></Setter>
                     <Setter Property="BorderBrush" Value="Gray" />
                 </Style>
-            </TextBlock.Resources>
-            <TextBlock.FocusVisualStyle>
+            </TextBox.Resources>
+            <TextBox.FocusVisualStyle>
                 <Style>
                     <Setter Property="Control.Template">
                         <Setter.Value>
@@ -29,8 +29,8 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </TextBlock.FocusVisualStyle>
-        </TextBlock>
+            </TextBox.FocusVisualStyle>
+        </TextBox>
 
         <Button Command="{Binding RootFolderBrowseCommand, Mode=OneWay}"  
                 Grid.Row="1" 

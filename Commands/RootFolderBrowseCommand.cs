@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ookii.Dialogs.Wpf;
-
+using System.IO;
 
 namespace LOGrasper.Commands
 {
@@ -26,10 +26,12 @@ namespace LOGrasper.Commands
         public override void Execute(object parameter)
         {
             VistaFolderBrowserDialog dialog = new();
-            if(dialog.ShowDialog() == true)
+            dialog.ShowDialog();
+            if(Directory.Exists( dialog.SelectedPath))
             {
-                _rootFolderBrowseViewModel._rootFolder = dialog.SelectedPath;
+                _rootFolderBrowseViewModel.RootFolderPath = dialog.SelectedPath;
             }
+           
         }
     }
 }

@@ -20,64 +20,24 @@ namespace LOGrasper.Models
             _keywordList = new ObservableCollection<string>();
         }
 
-        /*
-        /// <summary>
-        /// Gets keywordList
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Keyword> GetAllKeywords()
+        public int Count()
         {
-            return _keywordList;
-        }
-        */
-        /// <summary>
-        /// Method for editing a keyword in the List
-        /// </summary>
-        /// <param name="existingKeyword">The existing keyword</param>
-        /// <param name="newKeyword">The new Keyword that will replace de existing one</param>
-        /// <exception cref="InvalidKeywordIndexException"></exception>
-        public void EditKeyword(string existingKeyword, string newKeyword)
-        {
-            if (_keywordList.Contains(existingKeyword))
-            {
-                _keywordList[_keywordList.IndexOf(existingKeyword)] = newKeyword;
-            }
-            else
-            {
-                throw new InvalidKeywordIndexException(_keywordList.IndexOf(existingKeyword));
-            }
-        }
-        /// <summary>
-        /// Method to remove a keyword from the list
-        /// </summary>
-        /// <param name="keyword"></param>
-        /// <exception cref="InvalidKeywordIndexException"></exception>
-        public void RemoveKeyword(string keyword)
-        {
-            if (_keywordList.Remove(keyword)) { }
-
-            else throw new InvalidKeywordIndexException(_keywordList.IndexOf(keyword));
+            return _keywordList.Count;
         }
 
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="keyword"> the keyword to insert</param>
-        /// <exception cref="KeywordConflictException"></exception>
-        public void AddKeyword(string keyword)
+        public void Add(string keyword)
         {
-            foreach (string existingKeyword in _keywordList)
-            {
-                if (_keywordList.Contains(existingKeyword))
-                {
-                   
-                }
-            }
-
             _keywordList.Add(keyword);
         }
 
+        public void Remove(string keyword) 
+        {
+            _keywordList?.Remove(keyword);
+        }
+
+        public void Clear() 
+        {
+            _keywordList.Clear();
+        }
     }
 }

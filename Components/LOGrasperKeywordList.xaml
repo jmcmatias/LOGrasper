@@ -73,20 +73,34 @@
                   Height="auto"
                   Background="#D9D9D9"
                   Margin="5 5 0 0" 
-                  SelectedItem="{Binding SelectedKeyword}" d:ItemsSource="{d:SampleData ItemCount=5}">
+                  SelectedItem="{Binding SelectedKeyword}"
+                  >
+
+            
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="stretch"/>
                 </Style>
             </ListView.ItemContainerStyle>
+            <ListView.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="4"/>
+                    <Setter Property="BorderBrush" Value="red" />
+                    <Setter Property="BorderThickness" Value="10"/>
+                </Style>
+            </ListView.Resources>
 
-              <ListView.View>
+            <ListView.View>
                 <GridView>
                     <GridViewColumn>
-                        <GridViewColumnHeader IsEnabled="False" Content="Keywords:" FontSize="16" FontWeight="Bold" Background="#D9D9D9" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch">
-                            
-                        </GridViewColumnHeader>
-
+                        <GridViewColumnHeader 
+                            IsEnabled="False" 
+                            Content="Keywords:" 
+                            FontSize="16" 
+                            FontWeight="Bold" 
+                            Background="#D9D9D9" 
+                            HorizontalAlignment="Center" 
+                            HorizontalContentAlignment="Stretch" />
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock HorizontalAlignment="Left" Text="{Binding Keyword}" Width="auto"/>
@@ -95,13 +109,9 @@
                        
                     </GridViewColumn>
                 </GridView>
-        </ListView.View>
+            </ListView.View>
             
-            <ListView.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="4"></Setter>
-                </Style>
-            </ListView.Resources>
+
         </ListView>
 
 

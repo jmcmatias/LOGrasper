@@ -16,6 +16,8 @@ public class KeywordListViewModel : ViewModelBase
 
     private KeywordViewModel _selectedKeyword;
 
+    private bool _canEdit = true;
+
     public ObservableCollection<KeywordViewModel> _keywordList;
 
     public IEnumerable<KeywordViewModel> KeywordList => _keywordList;
@@ -26,10 +28,7 @@ public class KeywordListViewModel : ViewModelBase
 
     public string NewKeyword
     {
-        get
-        {
-            return _newKeyword;
-        }
+        get { return _newKeyword; }
         set
         {
             _newKeyword = value;
@@ -39,10 +38,7 @@ public class KeywordListViewModel : ViewModelBase
 
     public KeywordViewModel SelectedKeyword
     {
-        get
-        {
-            return _selectedKeyword;
-        }
+        get { return _selectedKeyword; }
         set
         {
             _selectedKeyword = value;
@@ -50,15 +46,18 @@ public class KeywordListViewModel : ViewModelBase
         }
     }
 
+    public bool HasList() => _keywordList.Count > 0 ;
+
     public bool CanEdit
     {
-        get
+        get { return _canEdit; }
+        set
         {
-            //if (KeywordList.Count>0) return true;
-            //else return false;
-            return true;
+            _canEdit = value;
+            OnPropertyChanged(nameof(SelectedKeyword));
         }
     }
+
 
     //KeywordList display
 

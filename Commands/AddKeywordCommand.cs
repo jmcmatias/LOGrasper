@@ -25,6 +25,10 @@ namespace LOGrasper.Commands
         public override void Execute(object parameter)
         {
             _keywordListViewModel._keywordList.Add(new KeywordViewModel(_keywordListViewModel.NewKeyword));
+            if (_keywordListViewModel.HasList())
+            {
+                _keywordListViewModel.CanEdit = true;
+            }
         }
     }
 }

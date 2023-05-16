@@ -12,9 +12,18 @@ namespace LOGrasper.ViewModels
     /// </summary>
     public class KeywordViewModel : ViewModelBase
     {
-        private readonly string _keyword;
+        private string _keyword;
 
-        public string Keyword => _keyword;
+        public string Keyword 
+        { 
+            get { return _keyword; } 
+            set 
+            {
+                _keyword = value;
+            }
+        }
+
+
     public KeywordViewModel(string Keyword)
         {
             _keyword = Keyword;

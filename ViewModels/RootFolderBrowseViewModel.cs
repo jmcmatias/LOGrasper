@@ -6,23 +6,47 @@ using System.Threading.Tasks;
 using LOGrasper.Commands;
 using System.Windows.Input;
 using System.IO;
+using System.Windows.Forms;
 
 namespace LOGrasper.ViewModels
 {
     public class RootFolderBrowseViewModel : ViewModelBase
     {
-        public string _rootFolder;
+        private string _rootFolderPath;
+        private bool _folderExists = false;
+
+        public string RootFolderPath
+        {
+            get { return _rootFolderPath; }
+            set
+            {
+                _rootFolderPath = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool FolderExists
+        {
+            get
+            {
+               if (Directory.Exists(RootFolderPath))
+                {
+                    return _folderExists=true;
+                }
+               return _folderExists = false;
+            }
+        }
 
         public ICommand RootFolderBrowseCommand { get; }
 
         public RootFolderBrowseViewModel(string rootFolder)
         {
-            _rootFolder = rootFolder;
+            _rootFolderPath = rootFolder;
         }
 
         public RootFolderBrowseViewModel() 
         {
-            _rootFolder = "test";
+            RootFolderPath = "Please Select Root Folder";
             RootFolderBrowseCommand = new RootFolderBrowseCommand(this);
 
         }
