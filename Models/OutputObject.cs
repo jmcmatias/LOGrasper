@@ -1,7 +1,9 @@
-﻿using System;
+﻿using LOGrasper.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -9,40 +11,55 @@ using System.Threading.Tasks;
 
 namespace LOGrasper.Models
 {
-    internal class OutputObject : INotifyCollectionChanged
+    public class OutputObject 
     {
-        public ObservableCollection<Found> _ouputObject;
+        public ObservableCollection<FoundInFile> _ouputObject;
 
-        public OutputObject(ObservableCollection<Found> ouputObject)
+        public OutputObject()
         {
-            _ouputObject = ouputObject;
+            _ouputObject = new();
         }
 
-        public event NotifyCollectionChangedEventHandler? CollectionChanged;
-
-        public class Found
+        public class FoundInFile : ObservableCollection<FoundInFile>
         {
-            public Found(string path, string fileName, List<Line> linesFound)
+           
+
+            public FoundInFile() { }
+
+            public string Path { get; set; }
+            public string FileName { get; set; }
+            public ObservableCollection<LineInfo> LinesFound { get; set; }
+
+            public FoundInFile(string path, string fileName, ObservableCollection<LineInfo> linesFound)
             {
                 Path = path;
                 FileName = fileName;
                 LinesFound = linesFound;
             }
 
-            public string Path { get; set; }
-            public string FileName { get; set; }
-            public List<Line> LinesFound { get; set; }
-        }
-        public class Line
-        {
-            public Line(BigInteger number, List<int>? ocurrences)
+            public void Add(string folder, string file, ObservableCollection<LineInfo> linesFound)
             {
-                Number = number;
-                Ocurrences = ocurrences;
+                Path = folder;
+                FileName = file;
+                LinesFound = linesFound;
             }
 
-            public BigInteger Number { get; set; }
-            public List<int>? Ocurrences { get; set;}
+            /// <summary>
+            /// Nested Lineinfo
+            /// </summary>
+            public class LineInfo
+            {
+                public LineInfo(int number, string content)
+                {
+                    Number = number;
+                    Content = content;
+                }
+
+                public int Number { get; set; }
+                public string Content { get; set; }
+            }
         }
+
+     
     }
 }

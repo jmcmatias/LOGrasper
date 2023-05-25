@@ -1,9 +1,4 @@
 ﻿using LOGrasper.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ookii.Dialogs.Wpf;
 using System.IO;
 
@@ -11,12 +6,13 @@ namespace LOGrasper.Commands
 {
     internal class RootFolderBrowseCommand : CommandBase
     {
-
         private readonly RootFolderBrowseViewModel _rootFolderBrowseViewModel;
+        private readonly SearchViewViewModel _searchViewViewModel;
 
-        public RootFolderBrowseCommand(RootFolderBrowseViewModel rootFolderBrowseViewModel)
+        public RootFolderBrowseCommand(RootFolderBrowseViewModel rootFolderBrowseViewModel,SearchViewViewModel searchViewViewmodel)
         {
             _rootFolderBrowseViewModel = rootFolderBrowseViewModel;
+            _searchViewViewModel = searchViewViewmodel;
         }
 
         /// <summary>
@@ -27,11 +23,13 @@ namespace LOGrasper.Commands
         {
             VistaFolderBrowserDialog dialog = new();
             dialog.ShowDialog();
-            if(Directory.Exists( dialog.SelectedPath))
+            _rootFolderBrowseViewModel.FolderExists = Directory.Exists(dialog.SelectedPath);
+            if (_rootFolderBrowseViewModel.FolderExists)
             {
                 _rootFolderBrowseViewModel.RootFolderPath = dialog.SelectedPath;
+                _searchViewViewModel.HasRootFolder = true;
+                int debug = 1;
             }
-           
         }
     }
 }

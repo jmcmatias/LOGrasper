@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
@@ -16,11 +17,17 @@ public class KeywordListViewModel : ViewModelBase
 
     private KeywordViewModel _selectedKeyword;
 
-    private bool _canEdit = true;
+    private bool _canEdit = false;
+
+    private bool _notEmpty = false;
+
+
 
     public ObservableCollection<KeywordViewModel> _keywordList;
 
     public IEnumerable<KeywordViewModel> KeywordList => _keywordList;
+
+    
 
     public ICommand AddKeywordCommand { get; }
     public ICommand DeleteKeywordCommand { get; }
@@ -46,26 +53,26 @@ public class KeywordListViewModel : ViewModelBase
         }
     }
 
-    public bool HasList() => _keywordList.Count > 0 ;
-
-    public bool CanEdit
+    public bool NotEmpty
     {
-        get { return _canEdit; }
+        get { return _notEmpty; }
         set
         {
-            _canEdit = value;
-            OnPropertyChanged(nameof(SelectedKeyword));
+            _notEmpty = value;
+            OnPropertyChanged(nameof(NotEmpty));
         }
-    }
 
+
+    }
 
     //KeywordList display
 
-    public KeywordListViewModel()
+    public KeywordListViewModel(SearchViewViewModel searchViewViewmodel)
     {
-        _keywordList = new ObservableCollection<KeywordViewModel>();
 
-        AddKeywordCommand = new AddKeywordCommand(this);
+        _keywordList = new ObservableCollection<KeywordViewModel>();
+        OnPropertyChanged(nameof(_keywordList));
+        AddKeywordCommand = new AddKeywordCommand(this, searchViewViewmodel);
         DeleteKeywordCommand = new DeleteKeywordCommand(this);
 
     }

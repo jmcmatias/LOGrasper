@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LOGrasper.Models
 {
-    public class KeywordList
+    public class KeywordList : List<string>
     {
         private readonly ObservableCollection<string> _keywordList;
 
@@ -20,24 +20,5 @@ namespace LOGrasper.Models
             _keywordList = new ObservableCollection<string>();
         }
 
-        public int Count()
-        {
-            return _keywordList.Count;
-        }
-
-        public void Add(string keyword)
-        {
-            _keywordList.Add(keyword);
-        }
-
-        public void Remove(string keyword) 
-        {
-            _keywordList?.Remove(keyword);
-        }
-
-        public void Clear() 
-        {
-            _keywordList.Clear();
-        }
     }
 }

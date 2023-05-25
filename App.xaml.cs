@@ -15,10 +15,6 @@ namespace LOGrasper
     /// </summary>
     public partial class App : Application
     {
-        
-      
-
-
         public App()
         {
      
@@ -29,7 +25,7 @@ namespace LOGrasper
         {
             MainWindow = new MainWindow()
             {
-               DataContext = new SearchViewViewmodel()
+               DataContext = new SearchViewViewModel()
 
             };
             MainWindow.Show();

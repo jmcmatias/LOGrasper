@@ -13,10 +13,42 @@ namespace LOGrasper.Commands
 
         private readonly KeywordListViewModel _keywordListViewModel;
 
+        private bool _hasSelection;
+
+        public bool HasSelection
+        {
+            get { return _hasSelection; }
+            set { _hasSelection = value; }
+        }
+
         public DeleteKeywordCommand(KeywordListViewModel KeywordListViewModel)
         {
             _keywordListViewModel = KeywordListViewModel;
 
+            _keywordListViewModel.PropertyChanged += keywordListViewModel_PropertyChanged;
+
+        }
+
+        private void keywordListViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(_keywordListViewModel.SelectedKeyword))
+            {
+                if (_keywordListViewModel.SelectedKeyword != null)
+                {
+                    HasSelection = true;
+                    OnCanExecuteChanged();
+                } 
+                else
+                {
+                    HasSelection = false; 
+                    OnCanExecuteChanged();
+                }
+            }
+        }
+
+        public override bool CanExecute(object? parameter)
+        {
+            return HasSelection;
         }
 
         public override void Execute(object parameter)

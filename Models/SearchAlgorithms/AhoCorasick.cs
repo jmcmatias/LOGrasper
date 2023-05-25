@@ -29,7 +29,8 @@ namespace LOGrasper.Models.SearchAlgorithms
                 currentNode = currentNode.Children[c];
             }
 
-            currentNode.KeywordEnd = true;
+            currentNode.KeywordEnd.End = true;
+            currentNode.KeywordEnd.keyword = Keyword;
         }
 
         public void BuildAutomaton()
@@ -65,7 +66,7 @@ namespace LOGrasper.Models.SearchAlgorithms
                     {
                         childNode.Failure = failureNode.Children[childNode.Character];
 
-                        if (childNode.Failure.KeywordEnd)
+                        if (childNode.Failure.KeywordEnd.End)
                         {
                             childNode.Output.AddRange(childNode.Failure.Output);
                             childNode.Output.Add(childNode.Failure);
@@ -75,14 +76,18 @@ namespace LOGrasper.Models.SearchAlgorithms
             }
         }
 
-        public List<int> Search(string text)
+        public List<Tuple<int, string>>? Search(string line)
         {
-            List<int> matches = new List<int>();
+            List<Tuple<int,string>>? matchesFound = new List<Tuple<int, string>>();
+      
+
             TrieNode currentNode = _root;
 
-            for (int i = 0; i < text.Length; i++)
+            
+
+            for (int i = 0; i < line.Length; i++)
             {
-                char c = text[i];
+                char c = line[i];
 
                 while (currentNode != _root && !currentNode.Children.ContainsKey(c))
                 {
@@ -93,21 +98,27 @@ namespace LOGrasper.Models.SearchAlgorithms
                 {
                     currentNode = currentNode.Children[c];
 
-                    if (currentNode.KeywordEnd)
-                    {
+                    if (currentNode.KeywordEnd.End)
+                    {/*
                         foreach (TrieNode node in currentNode.Output)
                         {
-                            matches.Add(i - node.Depth + 1);
-                        }
+                            //matches.Add(match.newMatch((i - node.Depth + 1),currentNode.KeywordEnd.keyword));
+                        }*/
 
-                        matches.Add(i - currentNode.Depth + 1);
+
+                        matchesFound.Add(new Tuple<int, string>(i - currentNode.Depth + 1, currentNode.KeywordEnd.keyword));
+                       
+    
                     }
                 }
             }
 
-            return matches;
+            return matchesFound;
         }
+
+
     }
+
 
     public class TrieNode
     {
@@ -116,7 +127,19 @@ namespace LOGrasper.Models.SearchAlgorithms
         public char Character { get; private set; }
         public TrieNode Failure { get; set; }
         public List<TrieNode> Output { get; set; }
-        public bool KeywordEnd { get; set; }
+        public FinalNode KeywordEnd { get; set; }
+
+        public class FinalNode
+        {
+            public bool End { get; set; }
+         
+            public bool AllKeywordsMatched { get; set; }
+            public string? keyword { get; set; }
+
+         
+
+        }
+
         public int Depth { get { return Parent == null ? 0 : Parent.Depth + 1; } }
 
         public TrieNode(TrieNode parent, char character)
@@ -125,8 +148,15 @@ namespace LOGrasper.Models.SearchAlgorithms
             Character = character;
             Children = new Dictionary<char, TrieNode>();
             Output = new List<TrieNode>();
-            KeywordEnd = false;
+            KeywordEnd = new FinalNode
+            {
+                End = false
+            };
+
+
         }
     }
+
 }
+
 

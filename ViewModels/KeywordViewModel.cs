@@ -12,7 +12,7 @@ namespace LOGrasper.ViewModels
     /// </summary>
     public class KeywordViewModel : ViewModelBase
     {
-        private string _keyword;
+        private string? _keyword;
 
         public string Keyword 
         { 

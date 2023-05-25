@@ -21,19 +21,17 @@ namespace LOGrasper.ViewModels
             set
             {
                 _rootFolderPath = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(RootFolderPath));
             }
         }
 
         public bool FolderExists
         {
-            get
+            get { return _folderExists; }
+            set
             {
-               if (Directory.Exists(RootFolderPath))
-                {
-                    return _folderExists=true;
-                }
-               return _folderExists = false;
+                _folderExists = value; 
+                OnPropertyChanged(nameof(FolderExists));
             }
         }
 
@@ -44,10 +42,10 @@ namespace LOGrasper.ViewModels
             _rootFolderPath = rootFolder;
         }
 
-        public RootFolderBrowseViewModel() 
+        public RootFolderBrowseViewModel(SearchViewViewModel searchViewViewmodel) 
         {
             RootFolderPath = "Please Select Root Folder";
-            RootFolderBrowseCommand = new RootFolderBrowseCommand(this);
+            RootFolderBrowseCommand = new RootFolderBrowseCommand(this, searchViewViewmodel);
 
         }
 

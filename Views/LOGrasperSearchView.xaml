@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:components="clr-namespace:LOGrasper.Components" xmlns:viewmodels="clr-namespace:LOGrasper.ViewModels" 
-             d:DataContext="{d:DesignInstance Type=viewmodels:SearchViewViewmodel}"
+            
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -59,7 +59,6 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Command="{Binding SearchCommand}" 
-                        IsEnabled="{Binding CanSearch}"
                         Grid.Row="1" 
                         Grid.Column="2" 
                         Name="Search"  
