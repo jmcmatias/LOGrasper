@@ -18,6 +18,8 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <!-- Start TreeView-->
+            
+
             <Border Background="#D9D9D9"
                     CornerRadius="4"
                     Grid.Row="0"
@@ -29,13 +31,15 @@
                           Background="#D9D9D9"
                           VerticalAlignment="Stretch"
                           BorderThickness="0"
-                          ItemsSource="{Binding FoundInFiles}"
-                          
+                          ItemsSource="{Binding FoundInFiles}"                          
                           >
+       
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding LinesFound}"
                                                   DataType="{x:Type viewmodels:FoundInFileViewModel}">
-                            <Label Content="{Binding DisplayFile}"/>
+                            <Label Content="{Binding FileName}"
+                                   FontWeight="Bold"
+                                   FontSize="14"/>
                             <HierarchicalDataTemplate.ItemTemplate>
                                 <HierarchicalDataTemplate 
                                                           DataType="{x:Type viewmodels:LineInfoViewModel}">
@@ -62,8 +66,7 @@
                     <ColumnDefinition Width="10*" />
                 </Grid.ColumnDefinitions>
 
-                <Button IsEnabled="{Binding CanClear}"
-                        Name="Clear"
+                <Button Name="Clear"
                         Grid.Column="0"
                         Content="CLEAR"
                         Margin=" 0 0 0 5"

@@ -15,18 +15,24 @@ namespace LOGrasper.Commands
         public ClearOutputCommand(OutputWindowViewModel outputWindowViewModel)
         {
             _outputWindowViewModel = outputWindowViewModel;
-            _outputWindowViewModel.PropertyChanged += OutputWindowViewModel_PropertyChanged;
+            _outputWindowViewModel.PropertyChanged += _outputWindowViewModel_PropertyChanged;
         }
 
-        private void OutputWindowViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void _outputWindowViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            
+                OnCanExecuteChanged();
         }
 
         public override void Execute(object? parameter)
         {
             _outputWindowViewModel.ClearOutput();
+            
 
+        }
+
+        public override bool CanExecute(object? parameter)
+        {
+            return !_outputWindowViewModel.FoundInFilesEmpty;
         }
     }
 }

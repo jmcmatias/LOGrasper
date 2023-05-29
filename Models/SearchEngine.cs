@@ -58,7 +58,7 @@ namespace LOGrasper.Models
             
             try
             {
-         
+                // If the folder has no files skip to the next subfolder
                 if (Directory.GetFiles(folder).Length != 0)
                 {
                     foreach (string file in Directory.GetFiles(folder))
@@ -78,7 +78,7 @@ namespace LOGrasper.Models
 
 
                                 List<Tuple<int, string>> matches = ac.Search(line);
-
+                                // if 
                                 if (kwList.All(item => matches.Any(tuple => tuple.Item2 == item)))
                                 {
                                     FoundInFile.LineInfo lineinfo = new FoundInFile.LineInfo(n, line);
@@ -99,9 +99,7 @@ namespace LOGrasper.Models
 
                                 outputObject._ouputObject.Add(foundInFile);
                                 outputWindowViewModel.UpdateOutput(outputObject);
-
-
-                                //ARRANJAR MANEIRA DE SABER QUANDO É ADICIONADO ALGO NO OUTPUTOBJECT
+                              
                             }
 
                         }

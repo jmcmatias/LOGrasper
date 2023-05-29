@@ -1,4 +1,5 @@
-﻿using LOGrasper.Models;
+﻿using LOGrasper.Commands;
+using LOGrasper.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -17,6 +18,7 @@ public class OutputWindowViewModel : ViewModelBase
 {
     private readonly ObservableCollection<FoundInFileViewModel> _foundInFiles = new();
     private readonly OutputObject _outputObject = new();
+    private bool _foundInFilesEmpty = true;
 
     public IEnumerable<FoundInFileViewModel> FoundInFiles
     {
@@ -26,15 +28,25 @@ public class OutputWindowViewModel : ViewModelBase
         }
     }
 
+    public bool FoundInFilesEmpty
+    {
+        get { return _foundInFilesEmpty; }
+        set
+        {
+            _foundInFilesEmpty = value;
+            OnPropertyChanged(nameof(FoundInFiles));
+        }
+    }
+
 
     public ICommand ClearOutputCommand { get; }
     public ICommand SaveOutputCommand { get; }
-    
-    
+
+
     public OutputWindowViewModel()
     {
-        
-      
+        ClearOutputCommand = new ClearOutputCommand(this);
+
         /*
         ObservableCollection<FoundInFile.LineInfo> _lines = new();
         ObservableCollection<FoundInFile.LineInfo> _lines2 = new();
@@ -51,10 +63,10 @@ public class OutputWindowViewModel : ViewModelBase
         _foundInFiles.Add(new FoundInFileViewModel(new FoundInFile("Path1", "FileName1", _lines)));
         _foundInFiles.Add(new FoundInFileViewModel(new FoundInFile("Path2", "FileName2", _lines2)));
         */
-       // UpdateOutput(_outputObject);
+        // UpdateOutput(_outputObject);
         int debug = 1;
 
-        
+
     }
 
 
@@ -65,34 +77,19 @@ public class OutputWindowViewModel : ViewModelBase
     public void UpdateOutput(OutputObject outputObject)
     {
         _foundInFiles.Clear();
-        foreach ( var foundInFile in outputObject._ouputObject)
+        if (outputObject._ouputObject.Count != 0)
         {
-            _foundInFiles.Add(new FoundInFileViewModel(foundInFile));
-            OnPropertyChanged(nameof(_foundInFiles));
-        }      
-       
+            FoundInFilesEmpty = false;
+            foreach (var foundInFile in outputObject._ouputObject)
+            {
+                _foundInFiles.Add(new FoundInFileViewModel(foundInFile));
+                OnPropertyChanged(nameof(_foundInFiles));
+            }
+            
+        }
     }
-    
-    /*
-    public OutputWindowViewModel()
-    {
-        
-        ObservableCollection<FoundInFile.LineInfo> _lines = new();
-        ObservableCollection<FoundInFile.LineInfo> _lines2 = new();
-
-        _lines.Add(new FoundInFile.LineInfo(1, "teste1"));
-        _lines.Add(new FoundInFile.LineInfo(2, "teste2"));
-        _lines.Add(new FoundInFile.LineInfo(3, "teste3"));
-
-        _lines2.Add(new FoundInFile.LineInfo(4, "teste4"));
-        _lines2.Add(new FoundInFile.LineInfo(5, "teste5"));
-        _lines2.Add(new FoundInFile.LineInfo(6, "teste6"));
 
 
-        _foundInFiles.Add(new FoundInFileViewModel(new FoundInFile("Path1", "FileName1", _lines)));
-        _foundInFiles.Add(new FoundInFileViewModel(new FoundInFile("Path2", "FileName2", _lines2)));
-    }
-    */
     public OutputWindowViewModel(ICommand clearOutputCommand, ICommand saveOutputCommand)
     {
         ClearOutputCommand = clearOutputCommand;
@@ -115,7 +112,6 @@ public class OutputWindowViewModel : ViewModelBase
     public void ClearOutput()
     {
         _foundInFiles.Clear();
-      
-
+        FoundInFilesEmpty = true;
     }
 }
