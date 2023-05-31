@@ -48,8 +48,7 @@ namespace LOGrasper.Models
 
 
             SearchFilesInFolder(SearchObject._rootFolderPath, OutputObject, SearchObject._keywordList ,ac, OutputWindowViewModel);
-
-           
+          
         }
 
 

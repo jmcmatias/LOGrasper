@@ -81,12 +81,12 @@
                     </Button.Resources>
                 </Button>
 
-                <Button IsEnabled="{Binding CanSave}"
-                        Name="Save"
+                <Button Name="Save"
                         Grid.Column="1"
                         Content="SAVE"
                         Margin="5 0 5 5"
-                        Height="30">
+                        Height="30"
+                        Command="{Binding SaveOutputCommand}">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius"

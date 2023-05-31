@@ -1,10 +1,13 @@
 ﻿using LOGrasper.Commands;
 using LOGrasper.Models;
+using Ookii.Dialogs.Wpf;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.IO.Packaging;
+using System.Linq;
 using System.Printing;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Input;
@@ -38,7 +41,6 @@ public class OutputWindowViewModel : ViewModelBase
         }
     }
 
-
     public ICommand ClearOutputCommand { get; }
     public ICommand SaveOutputCommand { get; }
 
@@ -46,49 +48,8 @@ public class OutputWindowViewModel : ViewModelBase
     public OutputWindowViewModel()
     {
         ClearOutputCommand = new ClearOutputCommand(this);
-
-        /*
-        ObservableCollection<FoundInFile.LineInfo> _lines = new();
-        ObservableCollection<FoundInFile.LineInfo> _lines2 = new();
-
-        _lines.Add(new FoundInFile.LineInfo(1, "teste1"));
-        _lines.Add(new FoundInFile.LineInfo(2, "teste2"));
-        _lines.Add(new FoundInFile.LineInfo(3, "teste3"));
-
-        _lines2.Add(new FoundInFile.LineInfo(4, "teste4"));
-        _lines2.Add(new FoundInFile.LineInfo(5, "teste5"));
-        _lines2.Add(new FoundInFile.LineInfo(6, "teste6"));
-        
-
-        _foundInFiles.Add(new FoundInFileViewModel(new FoundInFile("Path1", "FileName1", _lines)));
-        _foundInFiles.Add(new FoundInFileViewModel(new FoundInFile("Path2", "FileName2", _lines2)));
-        */
-        // UpdateOutput(_outputObject);
-        int debug = 1;
-
-
+        SaveOutputCommand = new SaveOutputCommand(this);
     }
-
-
-
-
-
-
-    public void UpdateOutput(OutputObject outputObject)
-    {
-        _foundInFiles.Clear();
-        if (outputObject._ouputObject.Count != 0)
-        {
-            FoundInFilesEmpty = false;
-            foreach (var foundInFile in outputObject._ouputObject)
-            {
-                _foundInFiles.Add(new FoundInFileViewModel(foundInFile));
-                OnPropertyChanged(nameof(_foundInFiles));
-            }
-            
-        }
-    }
-
 
     public OutputWindowViewModel(ICommand clearOutputCommand, ICommand saveOutputCommand)
     {
@@ -107,11 +68,60 @@ public class OutputWindowViewModel : ViewModelBase
 
         return foundInFileViewModels;
     }
+    public void UpdateOutput(OutputObject outputObject)
+    {
+        _foundInFiles.Clear();
+        if (outputObject._ouputObject.Count != 0)
+        {
+            FoundInFilesEmpty = false;
+            foreach (var foundInFile in outputObject._ouputObject)
+            {
+                _foundInFiles.Add(new FoundInFileViewModel(foundInFile));
+                OnPropertyChanged(nameof(_foundInFiles));
+            }
 
-
+        }
+    }
     public void ClearOutput()
     {
         _foundInFiles.Clear();
         FoundInFilesEmpty = true;
     }
+
+    public void SaveOutput()
+    {
+        VistaSaveFileDialog dialog = new VistaSaveFileDialog()
+        {
+            Filter = "txt|*.txt",
+            AddExtension = true,
+            OverwritePrompt = true,
+            DefaultExt = ".txt",
+            FileName = "SearchResult"
+        };
+
+        dialog.ShowDialog();
+
+        string filename = dialog.FileName;
+
+        if (filename != null)
+        {
+            TextWriter tw = new StreamWriter(filename);
+            
+        foreach (var file in _foundInFiles)
+            {
+                tw.Write(file.LinesFound.Count() + " Lines found @File -> ");
+                tw.WriteLine(file.FileName);
+                foreach (var line in file.LinesFound)
+                {
+                    tw.WriteLine("    " + line.DisplayLine);
+                }
+                tw.WriteLine();
+            }
+            tw.Close();
+        }
+        
+
+    }
+
+
 }

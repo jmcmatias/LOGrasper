@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace LOGrasper.Commands
 {
-    internal class ClearOutputCommand : CommandBase
+    internal class SaveOutputCommand : CommandBase
     {
         private readonly OutputWindowViewModel _outputWindowViewModel;
 
-
-        public ClearOutputCommand(OutputWindowViewModel outputWindowViewModel)
+        public SaveOutputCommand(OutputWindowViewModel outputWindowViewModel) 
         {
             _outputWindowViewModel = outputWindowViewModel;
             _outputWindowViewModel.PropertyChanged += _outputWindowViewModel_PropertyChanged;
@@ -25,7 +24,7 @@ namespace LOGrasper.Commands
 
         public override void Execute(object? parameter)
         {
-            _outputWindowViewModel.ClearOutput();
+            _outputWindowViewModel.SaveOutput();
         }
 
         public override bool CanExecute(object? parameter)

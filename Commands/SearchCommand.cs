@@ -26,16 +26,16 @@ namespace LOGrasper.Commands
             _outputWindowViewModel = _searchViewViewModel.OutputWindowViewModel;
 
             _searchViewViewModel.PropertyChanged += _searchViewViewmodel_PropertyChanged;
+
         }
+
+
 
         private void _searchViewViewmodel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(_searchViewViewModel.HasKeywordList) || e.PropertyName == nameof(_searchViewViewModel.HasRootFolder))
             {
-                if (_searchViewViewModel.HasKeywordList && _searchViewViewModel.HasRootFolder)
-                {
-                    OnCanExecuteChanged();
-                }
+                OnCanExecuteChanged();
             }          
         }
 

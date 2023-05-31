@@ -12,7 +12,7 @@ namespace LOGrasper.Commands
         // private readonly KeywordListViewModel _keywordListViewModel; // Viewmodel instance
 
         private readonly KeywordListViewModel _keywordListViewModel;
-
+        private readonly SearchViewViewModel _searchViewViewModel;
         private bool _hasSelection;
 
         public bool HasSelection
@@ -21,9 +21,10 @@ namespace LOGrasper.Commands
             set { _hasSelection = value; }
         }
 
-        public DeleteKeywordCommand(KeywordListViewModel KeywordListViewModel)
+        public DeleteKeywordCommand(KeywordListViewModel KeywordListViewModel, SearchViewViewModel searchViewViewModel)
         {
             _keywordListViewModel = KeywordListViewModel;
+            _searchViewViewModel = searchViewViewModel;
 
             _keywordListViewModel.PropertyChanged += keywordListViewModel_PropertyChanged;
 
@@ -54,6 +55,10 @@ namespace LOGrasper.Commands
         public override void Execute(object parameter)
         {
             _keywordListViewModel._keywordList.Remove((_keywordListViewModel.SelectedKeyword));
+            if (!_keywordListViewModel._keywordList.Any())
+            {
+               _searchViewViewModel.HasKeywordList = false;
+            }
         }
     }
 }
