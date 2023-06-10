@@ -1,5 +1,6 @@
 ﻿using LOGrasper.ViewModels;
 using Ookii.Dialogs.Wpf;
+using System;
 using System.IO;
 
 namespace LOGrasper.Commands
@@ -15,6 +16,8 @@ namespace LOGrasper.Commands
             _searchViewViewModel = searchViewViewmodel;
         }
 
+
+
         /// <summary>
         /// Opens a Folder Dialog using Ookii.Dialogs.Wpf and gets the selected path
         /// </summary>
@@ -28,8 +31,16 @@ namespace LOGrasper.Commands
             {
                 _rootFolderBrowseViewModel.RootFolderPath = dialog.SelectedPath;
                 _searchViewViewModel.HasRootFolder = true;
-                int debug = 1;
             }
+
+            _rootFolderBrowseViewModel.totalSizeBytes = 0;
+            _rootFolderBrowseViewModel.folderCount = 0;
+            _rootFolderBrowseViewModel.fileCount = 0;
+            
+
+            _rootFolderBrowseViewModel.CalculateDirectoryStats(dialog.SelectedPath,ref _rootFolderBrowseViewModel.totalSizeBytes, ref _rootFolderBrowseViewModel.folderCount, ref _rootFolderBrowseViewModel.fileCount);
+            _rootFolderBrowseViewModel.TotalSizeMB = _rootFolderBrowseViewModel.ConvertBytesToMegabytes(_rootFolderBrowseViewModel.totalSizeBytes);
+            _searchViewViewModel.MessageDispenser = "You Picked a total of " + Math.Round(_rootFolderBrowseViewModel.TotalSizeMB, 2).ToString() + " MB " + " from a total of " + _rootFolderBrowseViewModel.folderCount + " folders and " + _rootFolderBrowseViewModel.fileCount + " files";
         }
     }
 }

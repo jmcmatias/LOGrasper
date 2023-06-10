@@ -16,7 +16,9 @@ public class SearchViewViewModel : ViewModelBase
     public SearchObject SearchObject { get; set; }
 
 
-    private string? _messageDispenser;
+    private string _messageDispenser;
+    private string _stopwatch;
+
 
     private bool _hasKeywordList = false;
     private bool _hasRootFolder = false;
@@ -42,7 +44,26 @@ public class SearchViewViewModel : ViewModelBase
             OnPropertyChanged(nameof(HasRootFolder));
         }
     }
-    public string MessageDispenser { set => _messageDispenser = value; }
+    public string MessageDispenser
+    {
+        get => _messageDispenser;
+        set
+        {
+            _messageDispenser = value;
+            OnPropertyChanged(nameof(MessageDispenser));
+        }
+    }
+
+    public string Stopwatch
+    {
+        get=>_stopwatch;
+        set
+        {
+            _stopwatch = value;
+            OnPropertyChanged(nameof(Stopwatch));
+        }
+    }
+        
 
     public void InitiateSearch(RootFolderBrowseViewModel rootFolderBrowseViewModel, KeywordListViewModel keywordListViewModel)
     {
@@ -50,11 +71,16 @@ public class SearchViewViewModel : ViewModelBase
         SearchObject = new SearchObject(rootFolderBrowseViewModel.RootFolderPath, keywordListViewModel._keywordList);
 
         SearchEngine go = new(SearchObject, OutputWindowViewModel);
-
         Stopwatch stopwatch = new();
+
         stopwatch.Start();
         go.SearchAC();
+        MessageDispenser = stopwatch.Elapsed.ToString();
         stopwatch.Stop();
+        Stopwatch = stopwatch.Elapsed.ToString();
+        
+
+
 
     }
 
@@ -62,7 +88,7 @@ public class SearchViewViewModel : ViewModelBase
     {
         RootFolderBrowseViewModel = new RootFolderBrowseViewModel(this);
         KeywordListViewModel = new KeywordListViewModel(this);
-        OutputWindowViewModel = new OutputWindowViewModel();
+        OutputWindowViewModel = new OutputWindowViewModel(this, RootFolderBrowseViewModel);
         MessageDispenser = "TESTE";
         SearchCommand = new SearchCommand(this);
         // CanSearch(RootFolderBrowseViewModel, KeywordListViewModel);
