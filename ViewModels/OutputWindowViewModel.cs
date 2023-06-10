@@ -1,10 +1,12 @@
 ﻿using LOGrasper.Commands;
 using LOGrasper.Models;
 using Ookii.Dialogs.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
@@ -23,6 +25,10 @@ public class OutputWindowViewModel : ViewModelBase
     private readonly ObservableCollection<FoundInFileViewModel> _foundInFiles = new();
     private readonly OutputObject _outputObject = new();
     private bool _foundInFilesEmpty = true;
+
+    private readonly SearchViewViewModel _searchViewViewModel;
+    private readonly KeywordListViewModel _keywordListViewModel;
+    private readonly RootFolderBrowseViewModel _rootFolderBrowseViewModel;
 
     public IEnumerable<FoundInFileViewModel> FoundInFiles
     {
@@ -46,10 +52,12 @@ public class OutputWindowViewModel : ViewModelBase
     public ICommand SaveOutputCommand { get; }
 
 
-    public OutputWindowViewModel()
+    public OutputWindowViewModel(SearchViewViewModel searchViewViewModel, RootFolderBrowseViewModel rootFolderBrowseViewModel)
     {
+        _searchViewViewModel = searchViewViewModel;
+        _rootFolderBrowseViewModel = rootFolderBrowseViewModel;
         ClearOutputCommand = new ClearOutputCommand(this);
-        SaveOutputCommand = new SaveOutputCommand(this);
+        SaveOutputCommand = new SaveOutputCommand(this, searchViewViewModel);
     }
 
     public OutputWindowViewModel(ICommand clearOutputCommand, ICommand saveOutputCommand)
@@ -92,7 +100,7 @@ public class OutputWindowViewModel : ViewModelBase
         FoundInFilesEmpty = true;
     }
 
-    public void SaveOutput()
+    public void SaveOutput(string stopwatch)
     {
         VistaSaveFileDialog dialog = new VistaSaveFileDialog()
         {
@@ -106,14 +114,23 @@ public class OutputWindowViewModel : ViewModelBase
         dialog.ShowDialog();
 
         string filename = dialog.FileName;
+        ;
 
         if (filename != null)
         {
             TextWriter tw = new StreamWriter(filename);
+
+            tw.WriteLine("Search took " + stopwatch + " to search the keywords:");
+            foreach (string kw in _searchViewViewModel.SearchObject._keywordList)
+            {
+                tw.WriteLine("-"+kw);
+            }
+
+            tw.WriteLine("From a total of " + Math.Ceiling(_rootFolderBrowseViewModel.TotalSizeMB) + " MB");
             
         foreach (var file in _foundInFiles)
             {
-                tw.Write(file.LinesFound.Count() + " Lines found @File -> ");
+                tw.Write("\n" + file.LinesFound.Count() + " Lines found @File -> ");
                 tw.WriteLine(file.FileName);
                 foreach (var line in file.LinesFound)
                 {
