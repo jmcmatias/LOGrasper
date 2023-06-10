@@ -1,5 +1,8 @@
 ﻿using LOGrasper.Commands;
 using LOGrasper.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace LOGrasper.ViewModels;
@@ -10,12 +13,12 @@ public class SearchViewViewModel : ViewModelBase
     public KeywordListViewModel KeywordListViewModel { get; set; }
     public OutputWindowViewModel OutputWindowViewModel { get; set; }
 
-
+    
 
     public SearchObject SearchObject { get; set; }
 
 
-    private string? _messageDispenser;
+    private string _messageDispenser;
 
     private bool _hasKeywordList = false;
     private bool _hasRootFolder = false;
@@ -41,26 +44,37 @@ public class SearchViewViewModel : ViewModelBase
             OnPropertyChanged(nameof(HasRootFolder));
         }
     }
-    public string MessageDispenser { set => _messageDispenser = value; }
-
-    public void InitiateSearch(RootFolderBrowseViewModel rootFolderBrowseViewModel, KeywordListViewModel keywordListViewModel)
+    public string MessageDispenser
     {
-
+        get => _messageDispenser;
+        set
+        {
+            _messageDispenser = value;
+            OnPropertyChanged(nameof(MessageDispenser));
+        }
+    }
+    public async Task InitiateSearch(RootFolderBrowseViewModel rootFolderBrowseViewModel, KeywordListViewModel keywordListViewModel)
+    {
+        MessageDispenser = "Search Started";
         SearchObject = new SearchObject(rootFolderBrowseViewModel.RootFolderPath, keywordListViewModel._keywordList);
 
-        SearchEngine go = new(SearchObject, OutputWindowViewModel);
+        SearchEngine go = new(SearchObject, OutputWindowViewModel, this);
+        //go.SearchAC();
 
+        Task search = Task.Run(() => go.SearchAC());
 
-        go.SearchAC();
+        //        Task.WaitAll(search);
 
+        await search;
+        MessageDispenser = "Search Completed";
     }
 
     public SearchViewViewModel()
     {
+        MessageDispenser = "TESTE";
         RootFolderBrowseViewModel = new RootFolderBrowseViewModel(this);
         KeywordListViewModel = new KeywordListViewModel(this);
         OutputWindowViewModel = new OutputWindowViewModel();
-        MessageDispenser = "TESTE";
         SearchCommand = new SearchCommand(this);
         // CanSearch(RootFolderBrowseViewModel, KeywordListViewModel);
     }
