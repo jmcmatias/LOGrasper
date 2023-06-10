@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="LOGrasper.Components.LOGrasperRootFolderBrowse"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewmodels="clr-namespace:LOGrasper.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:RootFolderBrowseViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="RootFolderPathTextBox"  Grid.Row="1" Grid.Column="0" Text="{Binding RootFolderPath}"  Background="Azure" FontSize="15" Height="30">
+            <TextBox.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="4 0 0 4"></Setter>
+                    <Setter Property="BorderBrush" Value="Gray" />
+                </Style>
+            </TextBox.Resources>
+            <TextBox.FocusVisualStyle>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TextBox.FocusVisualStyle>
+        </TextBox>
+
+        <Button Command="{Binding RootFolderBrowseCommand, Mode=OneWay}"  
+                Grid.Row="1" 
+                Grid.Column="1" 
+                Name="Browse"  
+                Content="BROWSE" 
+                Background="#C57423" Width="80" HorizontalAlignment="Left">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="0 4 4 0"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+    </Grid>
+</UserControl>

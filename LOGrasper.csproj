@@ -12,11 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\icon_ver1.ico" />
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
+    <Resource Include="Images\icon_ver1.ico" />
   </ItemGroup>
 
 </Project>

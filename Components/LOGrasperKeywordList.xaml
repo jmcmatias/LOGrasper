@@ -3,16 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LOGrasper.Components"
+             xmlns:viewmodels="clr-namespace:LOGrasper.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:KeywordListViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
 
     <Grid Background="#686862" Height="Auto">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="10*" />
-            <RowDefinition Height="*" />
+            <!-- Division by 24 parts to match the 12 from Output Window 2* here -> 1* Output window-->
+            <RowDefinition Height="*" MinHeight="35"/>
+            <RowDefinition Height="21*" />
+            <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
 
 
@@ -22,13 +25,96 @@
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Row="0"  Grid.Column="0" Text="Insert Keyword"   BorderBrush="Gray"  Background="Azure" FontSize="17" Height="30"/>
-            <Button Grid.Row="0" Grid.Column="1" Content="ADD"  Background="#FEB1FE" AllowDrop="True" Height="30" Width="40" HorizontalAlignment="Left"></Button>
+
+            <TextBox Name="keywordForm"
+                     Grid.Row="0"  
+                     Grid.Column="0" 
+                     Text="{Binding NewKeyword, UpdateSourceTrigger=PropertyChanged}"
+                     BorderBrush="Gray"  
+                     Background="Azure" 
+                     FontSize="17" Height="30">
+                <TextBox.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="4 0 0 4"></Setter>
+                    </Style>
+                </TextBox.Resources>
+                <TextBox.FocusVisualStyle>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.FocusVisualStyle>
+            </TextBox>
+
+
+            <Button Name="Add"
+                    Command="{Binding AddKeywordCommand}"
+                    Grid.Row="0" 
+                    Grid.Column="1" 
+                    Content="ADD" 
+                    Background="#FEB1FE" 
+                    AllowDrop="True" 
+                    Height="30" 
+                    Width="40" 
+                    HorizontalAlignment="Left">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="0 4 4 0"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </Grid>
 
-        <ListBox Grid.Row="1" Height="auto" Background="#D9D9D9" Margin="5 5 0 0" />
-    
 
+        <Border Background="#D9D9D9" CornerRadius="4" Grid.Row="1" Margin="6 6 1 0" Padding="5" >
+            
+            <ListView ItemsSource="{Binding KeywordList}"
+                      Grid.Row="1"
+                      Height="auto"
+                      Background="#D9D9D9"
+                      SelectedItem="{Binding SelectedKeyword}"
+                      BorderThickness="0">
+                
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn>
+                            
+                                <GridViewColumnHeader IsEnabled="False"
+                                                  Content="Keywords:"
+                                                  FontSize="16"
+                                                  FontWeight="Bold"
+                                                  Background="#D9D9D9" 
+                                                  BorderBrush="Transparent"
+                                                  MinWidth="500"
+                                                  HorizontalContentAlignment="Left"
+                                                  
+                                                  />
+                                                  
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Left"
+                                               Text="{Binding Keyword}"
+                                               />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+
+
+            </ListView>
+        </Border>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -37,8 +123,30 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button Name="Edit" Grid.Column="0" Content="EDIT" Margin="5 0 5 5" Background="#A8A7A6" Height="30"></Button>
-            <Button Name="Delete" Grid.Column="1" Content="DELETE" Margin="5 0 5 5" Background="#A8A7A6" Height="30"></Button>
+            <Button Command="{Binding EditKeywordCommand}" 
+                    Name="Edit" 
+                    Grid.Column="0" 
+                    Content="EDIT" 
+                    Margin="5 0 0 5"  
+                    Height="30">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="4"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Command="{Binding DeleteKeywordCommand}"
+                    Name="Delete" 
+                    Grid.Column="1" 
+                    Content="DELETE" 
+                    Margin="5 0 5 5"  
+                    Height="30">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="4"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

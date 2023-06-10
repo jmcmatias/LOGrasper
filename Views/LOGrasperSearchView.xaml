@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LOGrasper.Views"
-             xmlns:components="clr-namespace:LOGrasper.Components"
+             xmlns:components="clr-namespace:LOGrasper.Components" xmlns:viewmodels="clr-namespace:LOGrasper.ViewModels" 
+            
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -22,7 +22,7 @@
             </Grid.ColumnDefinitions>
 
             
-                <Border BorderBrush="Gray" BorderThickness="1" Margin="5 5 0 0" Background="#D9D9D9">
+                <Border BorderBrush="Gray" BorderThickness="1" Margin="5 5 0 0" Background="#D9D9D9" CornerRadius="4">
                     <Image  x:Name="Logo"  Source="/Images/icon_ver1.ico" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5 5 5 0"/>
                 </Border>
             
@@ -33,15 +33,15 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+               
 
-                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" 
+                           Name="MessageDispenser"
+                           Text="MESSAGE DISPENSER"
+                           Background="Transparent"
+                           Foreground="Azure"/>
 
-                <TextBox Grid.Row="1" Grid.Column="0" Text="Select Search Root Folder" BorderBrush="Gray"  Background="Azure" FontSize="17" Height="30"/>
-                <Button Grid.Row="1" Grid.Column="1" Name="Browse"  Content="BROWSE" Background="#C57423" Height="30" Width="80" HorizontalAlignment="Left" />
+                <components:LOGrasperRootFolderBrowse Grid.Row="1" DataContext="{Binding RootFolderBrowseViewModel}"/>
 
             </Grid>
 
@@ -58,7 +58,21 @@
 
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Row="1" Grid.Column="2" Name="Search"  Content="SEARCH" Background="#6CCCEA" Height="30" Width="80" HorizontalAlignment="Right"/>
+                <Button Command="{Binding SearchCommand}" 
+                        Grid.Row="1" 
+                        Grid.Column="2" 
+                        Name="Search"  
+                        Content="SEARCH" 
+                        Background="#6CCCEA" 
+                        Height="30" 
+                        Width="80" 
+                        HorizontalAlignment="Right">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="4"></Setter>
+                        </Style>
+                    </Button.Resources>
+                </Button>
             </Grid>
 
 
@@ -71,8 +85,8 @@
                 <ColumnDefinition Width="4*" />
             </Grid.ColumnDefinitions>
 
-            <components:LOGrasperKeywordList Grid.Column="0"/>
-            <components:LOGrasperOutputWindow Grid.Column="1" Margin="5 0 0 0"/>
+            <components:LOGrasperKeywordList Grid.Column="0" DataContext="{Binding KeywordListViewModel}"/>
+            <components:LOGrasperOutputWindow Grid.Column="1" Margin="5 0 0 0" DataContext="{Binding OutputWindowViewModel}"/>
         </Grid>
     </Grid>
 </UserControl>
