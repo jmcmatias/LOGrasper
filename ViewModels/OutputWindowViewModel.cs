@@ -12,6 +12,7 @@ using System.IO.Packaging;
 using System.Linq;
 using System.Printing;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -76,7 +77,7 @@ public class OutputWindowViewModel : ViewModelBase
 
         return foundInFileViewModels;
     }
-    public void UpdateOutput(OutputObject outputObject)
+    public Task UpdateOutput(OutputObject outputObject)
     {
         _foundInFiles.Clear();
         if (outputObject._ouputObject.Count != 0)
@@ -89,7 +90,10 @@ public class OutputWindowViewModel : ViewModelBase
             }
 
         }
+
+        return Task.CompletedTask;
     }
+
     public void ClearOutput()
     {
         _foundInFiles.Clear();
