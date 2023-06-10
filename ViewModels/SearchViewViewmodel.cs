@@ -78,14 +78,4 @@ public class SearchViewViewModel : ViewModelBase
         SearchCommand = new SearchCommand(this);
         // CanSearch(RootFolderBrowseViewModel, KeywordListViewModel);
     }
-
-
-
-
-
-
-
-
-
-
 }
