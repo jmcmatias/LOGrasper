@@ -1,5 +1,6 @@
 ﻿using LOGrasper.Commands;
 using LOGrasper.Models;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace LOGrasper.ViewModels;
@@ -50,8 +51,10 @@ public class SearchViewViewModel : ViewModelBase
 
         SearchEngine go = new(SearchObject, OutputWindowViewModel);
 
-
+        Stopwatch stopwatch = new();
+        stopwatch.Start();
         go.SearchAC();
+        stopwatch.Stop();
 
     }
 
