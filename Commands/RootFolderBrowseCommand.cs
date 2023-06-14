@@ -2,6 +2,7 @@
 using Ookii.Dialogs.Wpf;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace LOGrasper.Commands
 {
@@ -42,5 +43,6 @@ namespace LOGrasper.Commands
             _rootFolderBrowseViewModel.TotalSizeMB = _rootFolderBrowseViewModel.ConvertBytesToMegabytes(_rootFolderBrowseViewModel.totalSizeBytes);
             _searchViewViewModel.MessageDispenser = "You Picked a total of " + Math.Round(_rootFolderBrowseViewModel.TotalSizeMB, 2).ToString() + " MB " + " from a total of " + _rootFolderBrowseViewModel.folderCount + " folders and " + _rootFolderBrowseViewModel.fileCount + " files";
         }
+
     }
 }

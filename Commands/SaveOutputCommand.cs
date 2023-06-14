@@ -25,9 +25,9 @@ namespace LOGrasper.Commands
 
         private void _searchViewViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(_searchViewViewModel.Stopwatch))
+            if (e.PropertyName == nameof(_searchViewViewModel.StopwatchString))
             {
-                _stopwatch = _searchViewViewModel.Stopwatch;
+                _stopwatch = _searchViewViewModel.StopwatchString;
             }
         }
 

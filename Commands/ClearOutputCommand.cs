@@ -10,11 +10,13 @@ namespace LOGrasper.Commands
     internal class ClearOutputCommand : CommandBase
     {
         private readonly OutputWindowViewModel _outputWindowViewModel;
+        private readonly SearchViewViewModel _searchViewViewModel;
 
 
-        public ClearOutputCommand(OutputWindowViewModel outputWindowViewModel)
+        public ClearOutputCommand(OutputWindowViewModel outputWindowViewModel, SearchViewViewModel searchViewViewModel)
         {
             _outputWindowViewModel = outputWindowViewModel;
+            _searchViewViewModel = searchViewViewModel;
             _outputWindowViewModel.PropertyChanged += _outputWindowViewModel_PropertyChanged;
         }
 
@@ -26,11 +28,14 @@ namespace LOGrasper.Commands
         public override void Execute(object? parameter)
         {
             _outputWindowViewModel.ClearOutput();
+            _searchViewViewModel.MessageDispenser = "";
+
         }
 
         public override bool CanExecute(object? parameter)
         {
             return !_outputWindowViewModel.FoundInFilesEmpty;
         }
+
     }
 }

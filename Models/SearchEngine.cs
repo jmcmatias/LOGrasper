@@ -23,38 +23,48 @@ namespace LOGrasper.Models
 
         public SearchObject SearchObject { get => _searchObject; set => _searchObject = value; }
         public OutputObject OutputObject { get => _outputObject; set => _outputObject = value; }
-        public static OutputWindowViewModel? OutputWindowViewModel { get; set; }
+        private static OutputWindowViewModel? _outputWindowViewModel { get; set; }
 
-        public static SearchViewViewModel? SearchViewViewModel { get; set; }
+        private static SearchViewViewModel? _searchViewViewModel { get; set; }
 
         public SearchEngine(SearchObject searchObject, OutputWindowViewModel outputWindowViewModel, SearchViewViewModel searchViewViewModel) 
         {
             SearchObject = searchObject;
-            OutputWindowViewModel = outputWindowViewModel;
-            SearchViewViewModel = searchViewViewModel;
+            _outputWindowViewModel = outputWindowViewModel;
+            _searchViewViewModel = searchViewViewModel;
         }
 
 
-        public void SearchAC()
+        public async Task SearchAC()
         {
-            Stopwatch stopwatch = new Stopwatch();
+            _searchViewViewModel.stopwatch = new();
+
+            _searchViewViewModel.stopwatch.Start();
+
+
             AhoCorasick ac = new();
-            stopwatch.Start();
+
             foreach (string kw in SearchObject._keywordList)
             {
                 ac.AddKeyword(kw);
             }
 
             ac.BuildAutomaton();
-            stopwatch.Stop();
 
+            await SearchFilesInFolder(SearchObject._rootFolderPath, OutputObject, SearchObject._keywordList ,ac, _outputWindowViewModel, _searchViewViewModel);
 
-            SearchFilesInFolder(SearchObject._rootFolderPath, OutputObject, SearchObject._keywordList ,ac, OutputWindowViewModel, SearchViewViewModel);
-          
+            _searchViewViewModel.stopwatch.Stop();
+            _searchViewViewModel.StopwatchString = _searchViewViewModel.stopwatch.Elapsed.ToString();
+
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                _searchViewViewModel.MessageDispenser = "Search Finished in " + _searchViewViewModel.StopwatchString;
+            });
+
         }
 
 
-        static async Task SearchFilesInFolder(string folder, OutputObject outputObject, List<string> kwList, AhoCorasick ac, OutputWindowViewModel outputWindowViewModel, SearchViewViewModel searchViewViewModel)
+        static async Task<Task> SearchFilesInFolder(string folder, OutputObject outputObject, List<string> kwList, AhoCorasick ac, OutputWindowViewModel outputWindowViewModel, SearchViewViewModel searchViewViewModel)
         {
             List<Task> searchTasks = new List<Task>();
 
@@ -70,7 +80,7 @@ namespace LOGrasper.Models
                         
                         await Application.Current.Dispatcher.InvokeAsync(() =>
                         {
-                           searchViewViewModel.MessageDispenser = "Searching @>>" + file;
+                           searchViewViewModel.MessageDispenser = "Searching "+ searchTasks.Count +" Tasks @>>" + file;
                         });
                         
                     }
@@ -81,7 +91,7 @@ namespace LOGrasper.Models
                     await SearchFilesInFolder(subFolder, outputObject,kwList, ac, outputWindowViewModel, searchViewViewModel);
                 }
                 
-                async Task SearchFileAsync(string file)
+                async Task<Task> SearchFileAsync(string file)
                 {
                     //Console.WriteLine($"Reading file: {file}");
                     int n = 1;
@@ -111,7 +121,6 @@ namespace LOGrasper.Models
                             n++;
 
                             //Console.WriteLine("Keywords Count" + keywords.Count);
-
                         }
                         if (lineFound)
                         {
@@ -122,12 +131,10 @@ namespace LOGrasper.Models
                                 outputObject._ouputObject.Add(foundInFile);
                                 outputWindowViewModel.UpdateOutput(outputObject);
                             });
-
                         }
-                         
                     }
+                    return Task.CompletedTask;
                 }
-
             }
             catch (Exception e)
             {
@@ -136,10 +143,8 @@ namespace LOGrasper.Models
             }
 
             await Task.WhenAll(searchTasks);
-            await Application.Current.Dispatcher.InvokeAsync(() =>
-            {
-                searchViewViewModel.MessageDispenser = "Search has Finished all files in Folder";
-            });
+
+           return Task.CompletedTask;
         }
 
     }

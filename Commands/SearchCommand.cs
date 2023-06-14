@@ -46,7 +46,7 @@ namespace LOGrasper.Commands
 
         public override void Execute(object parameter)
         {
-            _searchViewViewModel.InitiateSearch(_rootFolderBrowseViewModel, _keywordListViewModel);
+            _ = _searchViewViewModel.InitiateAsyncSearch(_rootFolderBrowseViewModel, _keywordListViewModel);
         }
 
        

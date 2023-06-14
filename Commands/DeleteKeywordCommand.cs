@@ -60,5 +60,6 @@ namespace LOGrasper.Commands
                _searchViewViewModel.HasKeywordList = false;
             }
         }
+
     }
 }

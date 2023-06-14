@@ -23,6 +23,8 @@ public class SearchViewViewModel : ViewModelBase
 
     private string _stopwatch;
 
+    public Stopwatch stopwatch;
+
     private bool _hasKeywordList = false;
     private bool _hasRootFolder = false;
 
@@ -57,54 +59,37 @@ public class SearchViewViewModel : ViewModelBase
         }
     }
 
-    public string Stopwatch
+    public string StopwatchString
     {
-        get=>_stopwatch;
+        get=> _stopwatch;
         set
         {
             _stopwatch = value;
-            OnPropertyChanged(nameof(Stopwatch));
+            OnPropertyChanged(nameof(StopwatchString));
         }
     }
         
 
-    public void InitiateSearch(RootFolderBrowseViewModel rootFolderBrowseViewModel, KeywordListViewModel keywordListViewModel)
-    {
-        get => _messageDispenser;
-        set
-        {
-            _messageDispenser = value;
-            OnPropertyChanged(nameof(MessageDispenser));
-        }
-    }
-    public async Task InitiateSearch(RootFolderBrowseViewModel rootFolderBrowseViewModel, KeywordListViewModel keywordListViewModel)
+    public async Task InitiateAsyncSearch(RootFolderBrowseViewModel rootFolderBrowseViewModel, KeywordListViewModel keywordListViewModel)
     {
         MessageDispenser = "Search Started";
         SearchObject = new SearchObject(rootFolderBrowseViewModel.RootFolderPath, keywordListViewModel._keywordList);
 
         SearchEngine go = new(SearchObject, OutputWindowViewModel, this);
-        Stopwatch stopwatch = new();
-        stopwatch.Start();
+                      
         Task search = Task.Run(() => go.SearchAC());
-        MessageDispenser = stopwatch.Elapsed.ToString();
-        stopwatch.Stop();
-        Stopwatch = stopwatch.Elapsed.ToString();
-
-
+        
         await search;
-        MessageDispenser = "Search Completed";
+        MessageDispenser = "Search Completed in " + StopwatchString;
     }
 
     public SearchViewViewModel()
     {
-        MessageDispenser = "TESTE";
+
         RootFolderBrowseViewModel = new RootFolderBrowseViewModel(this);
         KeywordListViewModel = new KeywordListViewModel(this);
-
         OutputWindowViewModel = new OutputWindowViewModel(this, RootFolderBrowseViewModel);
-        MessageDispenser = "TESTE";
-
         SearchCommand = new SearchCommand(this);
-        // CanSearch(RootFolderBrowseViewModel, KeywordListViewModel);
+
     }
 }
