@@ -93,6 +93,11 @@ namespace LOGrasper.ViewModels
         {
             return (bytes / 1024f) / 1024f;
         }
+
+        public int GetTotalFilesSelected()
+        {
+            return fileCount;
+        }
     }
 
 

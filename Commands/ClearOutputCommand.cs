@@ -1,4 +1,5 @@
-﻿using LOGrasper.ViewModels;
+﻿using Accessibility;
+using LOGrasper.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace LOGrasper.Commands
     {
         private readonly OutputWindowViewModel _outputWindowViewModel;
         private readonly SearchViewViewModel _searchViewViewModel;
+        private readonly RootFolderBrowseViewModel _rootFolderBrowseViewModel;
 
 
         public ClearOutputCommand(OutputWindowViewModel outputWindowViewModel, SearchViewViewModel searchViewViewModel)
@@ -28,8 +30,7 @@ namespace LOGrasper.Commands
         public override void Execute(object? parameter)
         {
             _outputWindowViewModel.ClearOutput();
-            _searchViewViewModel.MessageDispenser = "";
-
+            _searchViewViewModel.GetDirectoryStatistics();
         }
 
         public override bool CanExecute(object? parameter)

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Diagnostics;
 using System.Windows.Input;
+using System;
 
 namespace LOGrasper.ViewModels;
 
@@ -13,11 +14,12 @@ public class SearchViewViewModel : ViewModelBase
     public RootFolderBrowseViewModel RootFolderBrowseViewModel { get; set; }
     public KeywordListViewModel KeywordListViewModel { get; set; }
     public OutputWindowViewModel OutputWindowViewModel { get; set; }
-
     
-
     public SearchObject SearchObject { get; set; }
 
+    private string _searchButton = "SEARCH";
+
+    private bool _cancellationFlag = false;
 
     private string _messageDispenser;
 
@@ -59,6 +61,26 @@ public class SearchViewViewModel : ViewModelBase
         }
     }
 
+    public string SearchButton
+    {
+        get => _searchButton;
+        set
+        {
+            _searchButton = value;
+            OnPropertyChanged(nameof(SearchButton));
+        }
+    }
+
+    public bool CancellationFlag
+    {
+        get => _cancellationFlag;
+        set
+        {
+            _cancellationFlag = value;
+            OnPropertyChanged(nameof(CancellationFlag));
+        }
+    }
+
     public string StopwatchString
     {
         get=> _stopwatch;
@@ -75,12 +97,14 @@ public class SearchViewViewModel : ViewModelBase
         MessageDispenser = "Search Started";
         SearchObject = new SearchObject(rootFolderBrowseViewModel.RootFolderPath, keywordListViewModel._keywordList);
 
-        SearchEngine go = new(SearchObject, OutputWindowViewModel, this);
+
+        SearchEngine go = new(SearchObject, this);
                       
-        Task search = Task.Run(() => go.SearchAC());
+        Task search = Task.Run(() => go.SearchAC(CancellationFlag));
         
         await search;
         MessageDispenser = "Search Completed in " + StopwatchString;
+        SearchButton = "SEARCH";
     }
 
     public SearchViewViewModel()
@@ -91,5 +115,10 @@ public class SearchViewViewModel : ViewModelBase
         OutputWindowViewModel = new OutputWindowViewModel(this, RootFolderBrowseViewModel);
         SearchCommand = new SearchCommand(this);
 
+    }
+
+    public void GetDirectoryStatistics()
+    {
+        MessageDispenser = "You Picked a total of " + Math.Round(RootFolderBrowseViewModel.TotalSizeMB, 2).ToString() + " MB " + " from a total of " + RootFolderBrowseViewModel.folderCount + " folders and " + RootFolderBrowseViewModel.fileCount + " files";
     }
 }

@@ -18,8 +18,8 @@
         
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="10*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
@@ -54,8 +54,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
+             
                     <ColumnDefinition Width="*"/>
 
                 </Grid.ColumnDefinitions>
@@ -64,10 +63,10 @@
                         Grid.Row="1" 
                         Grid.Column="2" 
                         Name="Search"  
-                        Content="SEARCH" 
+                        Content="{Binding SearchButton}" 
                         Background="#6CCCEA" 
                         Height="30" 
-                        Width="80" 
+                        Width="100" 
                         HorizontalAlignment="Right">
                     <Button.Resources>
                         <Style TargetType="Border">

@@ -44,9 +44,19 @@ namespace LOGrasper.Commands
             return _searchViewViewModel.HasKeywordList && _searchViewViewModel.HasRootFolder;
         }
 
-        public override void Execute(object parameter)
+        public override void Execute(object? parameter)
         {
-            _ = _searchViewViewModel.InitiateAsyncSearch(_rootFolderBrowseViewModel, _keywordListViewModel);
+            
+            
+            if (_searchViewViewModel.SearchButton == "SEARCH")
+            {
+                _searchViewViewModel.CancellationFlag = false;
+                _ = _searchViewViewModel.InitiateAsyncSearch(_rootFolderBrowseViewModel, _keywordListViewModel);
+                _searchViewViewModel.SearchButton = "STOP SEARCH";
+            } else if (_searchViewViewModel.SearchButton == "STOP SEARCH")
+            {
+                _searchViewViewModel.CancellationFlag = true;
+            }
         }
 
        
