@@ -18,6 +18,7 @@ public class SearchViewViewModel : ViewModelBase
     public SearchObject SearchObject { get; set; }
 
     private string _searchButton = "SEARCH";
+    private string _searchButtonColor = "#6CCCEA";
 
     private bool _cancellationFlag = false;
 
@@ -71,6 +72,16 @@ public class SearchViewViewModel : ViewModelBase
         }
     }
 
+    public string SearchButtonColor
+    {
+        get => _searchButtonColor;
+        set
+        {
+            _searchButtonColor = value;
+            OnPropertyChanged(nameof(SearchButtonColor));
+        }
+    }
+
     public bool CancellationFlag
     {
         get => _cancellationFlag;
@@ -105,6 +116,7 @@ public class SearchViewViewModel : ViewModelBase
         await search;
         MessageDispenser = "Search Completed in " + StopwatchString;
         SearchButton = "SEARCH";
+        SearchButtonColor = "#6CCCEA";
     }
 
     public SearchViewViewModel()

@@ -53,6 +53,7 @@ namespace LOGrasper.Commands
                 _searchViewViewModel.CancellationFlag = false;
                 _ = _searchViewViewModel.InitiateAsyncSearch(_rootFolderBrowseViewModel, _keywordListViewModel);
                 _searchViewViewModel.SearchButton = "STOP SEARCH";
+                _searchViewViewModel.SearchButtonColor = "#fc7474";
             } else if (_searchViewViewModel.SearchButton == "STOP SEARCH")
             {
                 _searchViewViewModel.CancellationFlag = true;

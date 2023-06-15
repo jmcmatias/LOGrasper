@@ -106,7 +106,7 @@ namespace LOGrasper.Models
 
                             await Application.Current.Dispatcher.InvokeAsync(() =>
                             {
-                                searchViewViewModel.MessageDispenser = "Searching " + totalFilesSearched*100/totalFiles + "% @>>" + file;
+                                searchViewViewModel.MessageDispenser = totalFilesSearched*100/totalFiles + "% of files - Searching @>>" + file;
                             });
                             
                         }

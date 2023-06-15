@@ -64,7 +64,7 @@
                         Grid.Column="2" 
                         Name="Search"  
                         Content="{Binding SearchButton}" 
-                        Background="#6CCCEA" 
+                        Background="{Binding SearchButtonColor}" 
                         Height="30" 
                         Width="100" 
                         HorizontalAlignment="Right">
