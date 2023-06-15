@@ -20,8 +20,6 @@ namespace LOGrasper.Commands
 
         public abstract void Execute(object? parameter);
 
-#pragma warning restore CS8612 // A anulabilidade de tipos de referência em tipo não corresponde ao membro implicitamente implementado.
-
         protected virtual void OnCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, new EventArgs());

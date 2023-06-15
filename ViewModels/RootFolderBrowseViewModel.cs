@@ -64,33 +64,39 @@ namespace LOGrasper.ViewModels
         }
 
 
-
-
         public void CalculateDirectoryStats(string directoryPath, ref long totalSizeBytes, ref int folderCount, ref int fileCount)
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
-
-            // Update folder count
-            folderCount++;
-
-            // Calculate size of files in the current directory
-            foreach (FileInfo file in directoryInfo.GetFiles())
+            if (Directory.Exists(directoryPath))
             {
-                totalSizeBytes += file.Length;
-                fileCount++;
-            }
+                DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
 
-            // Calculate size of subdirectories recursively
-            foreach (DirectoryInfo subDirectory in directoryInfo.GetDirectories())
-            {
-                // Recursive call to calculate stats for subdirectory
-                CalculateDirectoryStats(subDirectory.FullName, ref totalSizeBytes, ref folderCount, ref fileCount);
+                // Update folder count
+                folderCount++;
+
+                // Calculate size of files in the current directory
+                foreach (FileInfo file in directoryInfo.GetFiles())
+                {
+                    totalSizeBytes += file.Length;
+                    fileCount++;
+                }
+
+                // Calculate size of subdirectories recursively
+                foreach (DirectoryInfo subDirectory in directoryInfo.GetDirectories())
+                {
+                    // Recursive call to calculate stats for subdirectory
+                    CalculateDirectoryStats(subDirectory.FullName, ref totalSizeBytes, ref folderCount, ref fileCount);
+                }
             }
         }
 
         public double ConvertBytesToMegabytes(long bytes)
         {
             return (bytes / 1024f) / 1024f;
+        }
+
+        public int GetTotalFilesSelected()
+        {
+            return fileCount;
         }
     }
 

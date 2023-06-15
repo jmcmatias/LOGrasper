@@ -48,5 +48,6 @@ namespace LOGrasper.Commands
                 OnCanExecuteChanged();
             }
         }
+
     }
 }

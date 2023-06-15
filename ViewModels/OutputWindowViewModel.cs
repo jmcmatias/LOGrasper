@@ -56,7 +56,7 @@ public class OutputWindowViewModel : ViewModelBase
     {
         _searchViewViewModel = searchViewViewModel;
         _rootFolderBrowseViewModel = rootFolderBrowseViewModel;
-        ClearOutputCommand = new ClearOutputCommand(this);
+        ClearOutputCommand = new ClearOutputCommand(this, _searchViewViewModel);
         SaveOutputCommand = new SaveOutputCommand(this, searchViewViewModel);
     }
 
