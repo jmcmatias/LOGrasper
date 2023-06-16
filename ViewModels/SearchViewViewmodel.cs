@@ -6,6 +6,7 @@ using System.Windows.Documents;
 using System.Diagnostics;
 using System.Windows.Input;
 using System;
+using System.Linq;
 
 namespace LOGrasper.ViewModels;
 
@@ -114,9 +115,18 @@ public class SearchViewViewModel : ViewModelBase
         Task search = Task.Run(() => go.SearchAC(CancellationFlag));
         
         await search;
-        MessageDispenser = "Search Completed in " + StopwatchString;
+        
         SearchButton = "SEARCH";
         SearchButtonColor = "#6CCCEA";
+        if(!OutputWindowViewModel.FoundInFiles.Any())
+        {
+            MessageDispenser = "Search Completed in " + StopwatchString + " => NO MATCHES WHERE FOUND";
+        }
+        else
+        {
+            MessageDispenser = "Search Completed in " + StopwatchString;
+        }
+
     }
 
     public SearchViewViewModel()

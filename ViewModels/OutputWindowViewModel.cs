@@ -27,7 +27,6 @@ public class OutputWindowViewModel : ViewModelBase
     private bool _foundInFilesEmpty = true;
 
     private readonly SearchViewViewModel _searchViewViewModel;
-    private readonly KeywordListViewModel _keywordListViewModel;
     private readonly RootFolderBrowseViewModel _rootFolderBrowseViewModel;
 
     public IEnumerable<FoundInFileViewModel> FoundInFiles
