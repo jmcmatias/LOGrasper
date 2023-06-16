@@ -1,12 +1,17 @@
 ﻿using LOGrasper.Commands;
 using LOGrasper.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Data;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Documents;
 
 namespace LOGrasper.ViewModels;
 
@@ -17,11 +22,13 @@ public class KeywordListViewModel : ViewModelBase
 
     private KeywordViewModel _selectedKeyword;
 
-    private bool _canEdit = false;
+    private bool _isEditing = false;
 
     private bool _notEmpty = false;
 
-
+    private string _AddButton = "ADD";
+    private string _AddButtonColor = "#FEB1FE";
+    private int _AddButtonSize = 40;
 
     public ObservableCollection<KeywordViewModel> _keywordList;
 
@@ -45,7 +52,7 @@ public class KeywordListViewModel : ViewModelBase
 
     public KeywordViewModel SelectedKeyword
     {
-        get { return _selectedKeyword; }
+        get => _selectedKeyword;
         set
         {
             _selectedKeyword = value;
@@ -61,8 +68,46 @@ public class KeywordListViewModel : ViewModelBase
             _notEmpty = value;
             OnPropertyChanged(nameof(NotEmpty));
         }
+    }
 
+    public bool IsEditing
+    {
+        get { return _isEditing; }
+        set
+        {
+            _isEditing = value;
+            OnPropertyChanged(nameof(IsEditing));
+        }
+    }
 
+    public string AddButton
+    {
+        get => _AddButton;
+        set
+        {
+            _AddButton = value;
+            OnPropertyChanged(nameof(AddButton));
+        }
+    }
+
+    public string AddButtonColor
+    {
+        get => _AddButtonColor;
+        set
+        {
+            _AddButtonColor = value;
+            OnPropertyChanged(nameof(AddButtonColor));
+        }
+    }
+
+    public int AddButtonSize
+    {
+        get => _AddButtonSize;
+        set
+        {
+            _AddButtonSize = value;
+            OnPropertyChanged(nameof(AddButtonSize));
+        }
     }
 
     //KeywordList display
@@ -74,7 +119,7 @@ public class KeywordListViewModel : ViewModelBase
         OnPropertyChanged(nameof(_keywordList));
         AddKeywordCommand = new AddKeywordCommand(this, searchViewViewmodel);
         DeleteKeywordCommand = new DeleteKeywordCommand(this, searchViewViewmodel);
-
+        EditKeywordCommand = new EditKeywordCommand(this);
     }
 
     public KeywordListViewModel(ICommand addKeywordCommand, ICommand deleteKeywordCommand, ICommand editKeywordCommand)
@@ -83,4 +128,20 @@ public class KeywordListViewModel : ViewModelBase
         DeleteKeywordCommand = deleteKeywordCommand;
         EditKeywordCommand = editKeywordCommand;
     }
+
+    public void EditingButton()
+    {
+        AddButton = "EDITING";
+        AddButtonColor = "#FFFF99";
+        AddButtonSize = 60;
+    }
+
+    public void AddingButton()
+    {
+        AddButton = "ADD";
+        AddButtonColor = "#FEB1FE";
+        AddButtonSize = 40;
+    }
 }
+
+

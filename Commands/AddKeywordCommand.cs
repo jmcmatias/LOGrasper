@@ -29,11 +29,24 @@ namespace LOGrasper.Commands
 
         public override void Execute(object parameter)
         {
-            _keywordListViewModel._keywordList.Add(new KeywordViewModel(_keywordListViewModel.NewKeyword));
-            if (_keywordListViewModel.KeywordList.Any())
+            if (_keywordListViewModel.IsEditing)
             {
-                _searchViewViewmodel.HasKeywordList=true;
+                int index = _keywordListViewModel._keywordList.IndexOf(_keywordListViewModel.SelectedKeyword);
+                _keywordListViewModel._keywordList.Remove(_keywordListViewModel.SelectedKeyword);
+                _keywordListViewModel._keywordList.Insert(index, new KeywordViewModel(_keywordListViewModel.NewKeyword));
+                _keywordListViewModel.IsEditing = false;
+                _keywordListViewModel.AddingButton();
             }
+            else
+            {
+                _keywordListViewModel._keywordList.Add(new KeywordViewModel(_keywordListViewModel.NewKeyword));
+            }
+
+                if (_keywordListViewModel.KeywordList.Any())
+                {
+                    _searchViewViewmodel.HasKeywordList = true;
+                }
+            _keywordListViewModel.NewKeyword = "";
         }
 
         public override bool CanExecute(object? parameter)

@@ -67,7 +67,8 @@
                         Background="{Binding SearchButtonColor}" 
                         Height="30" 
                         Width="100" 
-                        HorizontalAlignment="Right">
+                        HorizontalAlignment="Right"
+                        FontWeight="Bold">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="4"></Setter>
