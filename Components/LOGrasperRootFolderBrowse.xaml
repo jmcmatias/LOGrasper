@@ -37,7 +37,8 @@
                 Grid.Column="1" 
                 Name="Browse"  
                 Content="BROWSE" 
-                Background="#C57423" Width="80" HorizontalAlignment="Left">
+                Background="#C57423" Width="80" HorizontalAlignment="Left"
+                FontWeight="Bold">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="0 4 4 0"/>

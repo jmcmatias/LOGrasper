@@ -23,7 +23,7 @@
         <Grid Grid.Row="0" Margin="5 5 0 0" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
-                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="{Binding AddButtonSize}"/>
             </Grid.ColumnDefinitions>
 
             <TextBox Name="keywordForm"
@@ -33,6 +33,10 @@
                      BorderBrush="Gray"  
                      Background="Azure" 
                      FontSize="17" Height="30">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding AddKeywordCommand}" />
+                </TextBox.InputBindings>
+                    
                 <TextBox.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="4 0 0 4"></Setter>
@@ -54,11 +58,12 @@
                     Command="{Binding AddKeywordCommand}"
                     Grid.Row="0" 
                     Grid.Column="1" 
-                    Content="ADD" 
-                    Background="#FEB1FE" 
+                    Content="{Binding AddButton}" 
+                    Background="{Binding AddButtonColor}" 
                     AllowDrop="True" 
                     Height="30" 
-                    Width="40" 
+                    Width="{Binding AddButtonSize}"
+                    FontWeight="Bold"
                     HorizontalAlignment="Left">
                 <Button.Resources>
                     <Style TargetType="Border">
@@ -128,7 +133,8 @@
                     Grid.Column="0" 
                     Content="EDIT" 
                     Margin="5 0 0 5"  
-                    Height="30">
+                    Height="30"
+                    FontWeight="Bold">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="4"></Setter>
@@ -140,7 +146,8 @@
                     Grid.Column="1" 
                     Content="DELETE" 
                     Margin="5 0 5 5"  
-                    Height="30">
+                    Height="30"
+                    FontWeight="Bold">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="4"></Setter>
