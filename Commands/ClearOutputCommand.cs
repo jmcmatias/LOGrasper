@@ -12,8 +12,6 @@ namespace LOGrasper.Commands
     {
         private readonly OutputWindowViewModel _outputWindowViewModel;
         private readonly SearchViewViewModel _searchViewViewModel;
-        private readonly RootFolderBrowseViewModel _rootFolderBrowseViewModel;
-
 
         public ClearOutputCommand(OutputWindowViewModel outputWindowViewModel, SearchViewViewModel searchViewViewModel)
         {

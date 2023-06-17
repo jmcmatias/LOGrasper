@@ -23,7 +23,7 @@ namespace LOGrasper.Commands
         /// Opens a Folder Dialog using Ookii.Dialogs.Wpf and gets the selected path
         /// </summary>
         /// <param name="parameter"></param>
-        public override void Execute(object parameter)
+        public override void Execute(object? parameter)
         {
             VistaFolderBrowserDialog dialog = new();
             dialog.ShowDialog();

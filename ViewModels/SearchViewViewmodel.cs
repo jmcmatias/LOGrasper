@@ -131,7 +131,9 @@ public class SearchViewViewModel : ViewModelBase
 
     public SearchViewViewModel()
     {
-
+        _messageDispenser = string.Empty;
+        _stopwatch = string.Empty;
+        stopwatch = new();
         RootFolderBrowseViewModel = new RootFolderBrowseViewModel(this);
         KeywordListViewModel = new KeywordListViewModel(this);
         OutputWindowViewModel = new OutputWindowViewModel(this, RootFolderBrowseViewModel);

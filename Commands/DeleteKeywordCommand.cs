@@ -52,7 +52,7 @@ namespace LOGrasper.Commands
             return HasSelection;
         }
 
-        public override void Execute(object parameter)
+        public override void Execute(object? parameter)
         {
             _keywordListViewModel._keywordList.Remove((_keywordListViewModel.SelectedKeyword));
             if (!_keywordListViewModel._keywordList.Any())

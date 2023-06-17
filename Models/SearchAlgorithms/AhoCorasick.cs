@@ -12,7 +12,7 @@ namespace LOGrasper.Models.SearchAlgorithms
 
         public AhoCorasick()
         {
-            _root = new TrieNode(null, '\0');
+            _root = new(null, '\0');
         }
 
         public void AddKeyword(string Keyword)
@@ -122,10 +122,10 @@ namespace LOGrasper.Models.SearchAlgorithms
 
     public class TrieNode
     {
-        public TrieNode Parent { get; private set; }
+        public TrieNode? Parent { get; private set; }
         public Dictionary<char, TrieNode> Children { get; private set; }
         public char Character { get; private set; }
-        public TrieNode Failure { get; set; }
+        public TrieNode? Failure { get; set; }
         public List<TrieNode> Output { get; set; }
         public FinalNode KeywordEnd { get; set; }
 
@@ -142,7 +142,7 @@ namespace LOGrasper.Models.SearchAlgorithms
 
         public int Depth { get { return Parent == null ? 0 : Parent.Depth + 1; } }
 
-        public TrieNode(TrieNode parent, char character)
+        public TrieNode(TrieNode? parent, char character)
         {
             Parent = parent;
             Character = character;

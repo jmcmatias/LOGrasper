@@ -1,12 +1,7 @@
-﻿using LOGrasper.Exceptions;
-using LOGrasper.Models;
+﻿
 using LOGrasper.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace LOGrasper.Commands
 {
@@ -27,7 +22,7 @@ namespace LOGrasper.Commands
 
 
 
-        public override void Execute(object parameter)
+        public override void Execute(object? parameter)
         {
             if (_keywordListViewModel.IsEditing)
             {

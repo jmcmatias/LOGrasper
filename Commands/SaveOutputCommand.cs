@@ -16,6 +16,7 @@ namespace LOGrasper.Commands
 
         public SaveOutputCommand(OutputWindowViewModel outputWindowViewModel, SearchViewViewModel searchViewViewModel) 
         {
+            _stopwatch = string.Empty;
             _searchViewViewModel = searchViewViewModel;
             _outputWindowViewModel = outputWindowViewModel;
             _searchViewViewModel.PropertyChanged += _searchViewViewModel_PropertyChanged;

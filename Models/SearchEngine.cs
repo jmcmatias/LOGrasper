@@ -33,11 +33,10 @@ namespace LOGrasper.Models
         private static ConcurrentBag<Task> searchTasks = new ConcurrentBag<Task>();
 
 
-#pragma warning disable CS8618 // O campo não anulável precisa conter um valor não nulo ao sair do construtor. Considere declará-lo como anulável.
+
         public SearchEngine(SearchObject searchObject, SearchViewViewModel searchViewViewModel)
-#pragma warning restore CS8618 // O campo não anulável precisa conter um valor não nulo ao sair do construtor. Considere declará-lo como anulável.
         {
-            SearchObject = searchObject;
+            _searchObject = searchObject;
             _searchViewViewModel = searchViewViewModel;
             _outputWindowViewModel = searchViewViewModel.OutputWindowViewModel;
             _rootFolderBrowserViewModel = searchViewViewModel.RootFolderBrowseViewModel;
@@ -54,7 +53,7 @@ namespace LOGrasper.Models
             totalFilesSearched = 0;
 
 
-            AhoCorasick ac = new();
+            AhoCorasick? ac = new();
 
             foreach (string kw in SearchObject._keywordList)
             {
@@ -133,10 +132,10 @@ namespace LOGrasper.Models
                             while ((line = reader.ReadLine()) != null && !searchViewViewModel.CancellationFlag)
                             {
 
-                                List<Tuple<int, string>> matches = ac.Search(line); ;
+                                List<Tuple<int, string>>? matches = ac.Search(line); ;
 
                                 // if 
-                                if (kwList.All(item => matches.Any(tuple => tuple.Item2 == item)))
+                                if (matches != null && kwList.All(item => matches.Any(tuple => tuple.Item2 == item)))
                                 {
                                     FoundInFile.LineInfo lineinfo = new FoundInFile.LineInfo(n, line);
                                     lines.Add(lineinfo);

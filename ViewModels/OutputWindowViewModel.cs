@@ -59,12 +59,6 @@ public class OutputWindowViewModel : ViewModelBase
         SaveOutputCommand = new SaveOutputCommand(this, searchViewViewModel);
     }
 
-    public OutputWindowViewModel(ICommand clearOutputCommand, ICommand saveOutputCommand)
-    {
-        ClearOutputCommand = clearOutputCommand;
-        SaveOutputCommand = saveOutputCommand;
-    }
-
     public ObservableCollection<FoundInFileViewModel> ConvertOutputObjectToViewmodel(OutputObject outputObject)
     {
         ObservableCollection<FoundInFileViewModel> foundInFileViewModels = new();
