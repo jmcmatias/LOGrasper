@@ -9,6 +9,7 @@ namespace LOGrasper.ViewModels
 
         public int LineNumber => _lineinfo.Number;
         public string Content => _lineinfo.Content;
+        public string LightContent => _lineinfo.LightContent;
 
         public LineInfoViewModel(FoundInFile.LineInfo lineinfo)
         {
@@ -19,9 +20,16 @@ namespace LOGrasper.ViewModels
         {
             get
             {
-                return string.Format("Line {0} : {1}", LineNumber, Content);
+                return string.Format("Line {0}:\n{1}", LineNumber, Content);
             }
         }
 
+        public string DisplayLineLight
+        {
+            get
+            {
+                return string.Format("Line {0}:\n{1}", LineNumber, LightContent);
+            }
+        }
     }
 }

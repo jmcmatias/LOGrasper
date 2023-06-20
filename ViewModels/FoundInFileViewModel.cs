@@ -33,7 +33,7 @@ namespace LOGrasper.ViewModels
             _foundInFile = foundInFile;
             foreach (var line in foundInFile.LinesFound)
             {
-                _linesFound.Add(new LineInfoViewModel(new FoundInFile.LineInfo(line.Number, line.Content)));
+                _linesFound.Add(new LineInfoViewModel(new FoundInFile.LineInfo(line.Number, line.Content, line.LightContent)));
             }
         }
 

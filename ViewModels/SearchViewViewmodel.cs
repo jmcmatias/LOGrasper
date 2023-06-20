@@ -24,6 +24,7 @@ public class SearchViewViewModel : ViewModelBase
     private bool _cancellationFlag = false;
 
     private string _messageDispenser;
+    private string _systemInfo;
 
     private string _stopwatch;
 
@@ -60,6 +61,16 @@ public class SearchViewViewModel : ViewModelBase
         {
             _messageDispenser = value;
             OnPropertyChanged(nameof(MessageDispenser));
+        }
+    }
+
+    public string SystemInfo
+    {
+        get => _systemInfo;
+        set
+        {
+            _systemInfo = value;
+            OnPropertyChanged(nameof(SystemInfo));
         }
     }
 
@@ -109,28 +120,32 @@ public class SearchViewViewModel : ViewModelBase
         MessageDispenser = "Search Started";
         SearchObject = new SearchObject(rootFolderBrowseViewModel.RootFolderPath, keywordListViewModel._keywordList);
 
-
+        
         SearchEngine go = new(SearchObject, this);
-                      
+
+       
         Task search = Task.Run(() => go.SearchAC(CancellationFlag));
         
         await search;
         
         SearchButton = "SEARCH";
         SearchButtonColor = "#6CCCEA";
+
         if(!OutputWindowViewModel.FoundInFiles.Any())
         {
+            
             MessageDispenser = "Search Completed in " + StopwatchString + " => NO MATCHES WHERE FOUND";
         }
         else
         {
             MessageDispenser = "Search Completed in " + StopwatchString;
         }
-
+        SystemInfo = "Average SearchTasks/Second: " + Math.Round(go.GetTotalSearchTasks() / stopwatch.Elapsed.TotalSeconds, 2);
     }
 
     public SearchViewViewModel()
     {
+        _systemInfo = GetSystemInfo();
         _messageDispenser = string.Empty;
         _stopwatch = string.Empty;
         stopwatch = new();
@@ -144,5 +159,24 @@ public class SearchViewViewModel : ViewModelBase
     public void GetDirectoryStatistics()
     {
         MessageDispenser = "You Picked a total of " + Math.Round(RootFolderBrowseViewModel.TotalSizeMB, 2).ToString() + " MB " + " from a total of " + RootFolderBrowseViewModel.folderCount + " folders and " + RootFolderBrowseViewModel.fileCount + " files";
+    }
+
+    public string GetSystemInfo()
+    {
+        string processors = string.Empty;
+        int coreCount = 0;
+        foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_ComputerSystem").Get())
+        {
+            processors = "Number Of Physical Processors: " + item["NumberOfProcessors"];
+        }
+
+
+        foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
+        {
+            if (item["NumberOfCores"] != null)
+                coreCount += int.Parse(item["NumberOfCores"].ToString());
+        }
+
+        return processors + " | Number of Cores: " + coreCount + " | Number Of Logical Processors: " + Environment.ProcessorCount + " | Maximum Search Tasks Selected " + Environment.ProcessorCount; 
     }
 }

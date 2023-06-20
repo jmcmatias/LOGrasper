@@ -29,6 +29,7 @@ namespace LOGrasper.Commands
         {
             _outputWindowViewModel.ClearOutput();
             _searchViewViewModel.GetDirectoryStatistics();
+            _searchViewViewModel.SystemInfo = _searchViewViewModel.GetSystemInfo();
         }
 
         public override bool CanExecute(object? parameter)

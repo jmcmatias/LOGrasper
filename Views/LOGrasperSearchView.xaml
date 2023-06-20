@@ -31,19 +31,24 @@
             
             <Grid Grid.Column="1" Margin="5 5 5 0" VerticalAlignment="Bottom">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-               
-
                 <TextBlock Grid.Row="0" 
+                           Name="SystemInfo"
+                           Text="{Binding SystemInfo, UpdateSourceTrigger=PropertyChanged}"
+                           Background="Transparent"
+                           Foreground="Azure"/>
+
+                <TextBlock Grid.Row="1" 
                            Name="MessageDispenser"
                            Text="{Binding MessageDispenser, UpdateSourceTrigger=PropertyChanged}"
                            Background="Transparent"
                            Foreground="Azure"/>
 
-                <components:LOGrasperRootFolderBrowse Grid.Row="1" DataContext="{Binding RootFolderBrowseViewModel}"/>
+                <components:LOGrasperRootFolderBrowse Grid.Row="2" DataContext="{Binding RootFolderBrowseViewModel}"/>
 
             </Grid>
 
