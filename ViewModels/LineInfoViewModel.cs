@@ -20,7 +20,7 @@ namespace LOGrasper.ViewModels
         {
             get
             {
-                return string.Format("Line {0}:\n{1}", LineNumber, Content);
+                return string.Format("Line {0}:\n   {1}", LineNumber, Content);
             }
         }
 

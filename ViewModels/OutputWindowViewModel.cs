@@ -13,10 +13,12 @@ using System.Linq;
 using System.Printing;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using static LOGrasper.Models.OutputObject;
+using Path = System.IO.Path;
 
 namespace LOGrasper.ViewModels;
 
@@ -108,8 +110,7 @@ public class OutputWindowViewModel : ViewModelBase
         dialog.ShowDialog();
 
         string filename = dialog.FileName;
-        ;
-
+        
         if (filename != null)
         {
             TextWriter tw = new StreamWriter(filename);
@@ -128,13 +129,41 @@ public class OutputWindowViewModel : ViewModelBase
                 tw.WriteLine(file.FileName);
                 foreach (var line in file.LinesFound)
                 {
-                    tw.WriteLine("    " + line.DisplayLine);
+                    tw.WriteLine(line.DisplayLine);
                 }
                 tw.WriteLine();
             }
             tw.Close();
         }
-        
+
+        if (File.Exists(filename))
+        {
+            // Check if the file has a .txt extension
+            if (Path.GetExtension(filename).Equals(".txt", StringComparison.OrdinalIgnoreCase))
+            {
+                try
+                {
+                    // Start the process for the specific file using the default application
+                    ProcessStartInfo processStartInfo = new(filename)
+                    {
+                        UseShellExecute = true
+                    };
+                    Process.Start(processStartInfo);
+                }
+                catch (Exception ex)
+                {
+                    _searchViewViewModel.MessageDispenser = "An Error Ocurred while Opening the saved file" + ex.Message;
+                }
+            }
+            else
+            {
+                MessageBox.Show("The file is not a text file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        else
+        {
+            MessageBox.Show("File was not created successfully.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
 
     }
 

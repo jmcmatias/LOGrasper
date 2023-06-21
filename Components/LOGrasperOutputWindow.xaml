@@ -45,7 +45,7 @@
                                    FontSize="14"/>
                             <HierarchicalDataTemplate.ItemTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type viewmodels:LineInfoViewModel}">
-                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                   
                                         <TextBox Text="{Binding DisplayLineLight, Mode=OneWay}" 
                                              IsReadOnly="true" 
                                              HorizontalContentAlignment="Left"
@@ -53,7 +53,7 @@
                                              IsReadOnlyCaretVisible="True"
                                             
                                              />
-                                    </ScrollViewer>
+                                  
 
 
                                 </HierarchicalDataTemplate>
