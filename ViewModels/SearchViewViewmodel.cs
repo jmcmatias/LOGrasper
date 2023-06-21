@@ -59,6 +59,7 @@ public class SearchViewViewModel : ViewModelBase
         get => _messageDispenser;
         set
         {
+            _messageDispenser = "";
             _messageDispenser = value;
             OnPropertyChanged(nameof(MessageDispenser));
         }

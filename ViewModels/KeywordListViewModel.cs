@@ -117,7 +117,7 @@ public class KeywordListViewModel : ViewModelBase
         //OnPropertyChanged(nameof(_keywordList));
         AddKeywordCommand = new AddKeywordCommand(this, searchViewViewmodel);
         DeleteKeywordCommand = new DeleteKeywordCommand(this, searchViewViewmodel);
-        EditKeywordCommand = new EditKeywordCommand(this);
+        EditKeywordCommand = new EditKeywordCommand(this, searchViewViewmodel);
     }
 
     public KeywordListViewModel(ICommand addKeywordCommand, ICommand deleteKeywordCommand, ICommand editKeywordCommand)

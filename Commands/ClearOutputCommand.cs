@@ -33,7 +33,7 @@ namespace LOGrasper.Commands
         }
 
         public override bool CanExecute(object? parameter)
-        {
+        {       
             return !_outputWindowViewModel.FoundInFilesEmpty;
         }
 

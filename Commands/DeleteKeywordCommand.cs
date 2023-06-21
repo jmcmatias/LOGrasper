@@ -59,6 +59,8 @@ namespace LOGrasper.Commands
             {
                _searchViewViewModel.HasKeywordList = false;
             }
+            _searchViewViewModel.MessageDispenser = "";
+            _searchViewViewModel.MessageDispenser = "Keyword Deleted";
         }
 
     }

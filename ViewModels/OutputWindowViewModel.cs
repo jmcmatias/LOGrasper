@@ -91,6 +91,7 @@ public class OutputWindowViewModel : ViewModelBase
     {
         _foundInFiles.Clear();
         FoundInFilesEmpty = true;
+        _searchViewViewModel.MessageDispenser = "Output Cleared";
     }
 
     public void SaveOutput(string stopwatch)

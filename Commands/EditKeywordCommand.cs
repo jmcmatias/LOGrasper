@@ -10,6 +10,7 @@ namespace LOGrasper.Commands
     internal class EditKeywordCommand : CommandBase
     {
         private readonly KeywordListViewModel _keywordListViewModel;
+        private readonly SearchViewViewModel _searchViewViewModel;
 
         private bool _hasSelection;
 
@@ -19,9 +20,10 @@ namespace LOGrasper.Commands
             set { _hasSelection = value; }
         }
 
-        public EditKeywordCommand(KeywordListViewModel keywordListViewModel) 
+        public EditKeywordCommand(KeywordListViewModel keywordListViewModel, SearchViewViewModel searchViewViewModel) 
         {
             _keywordListViewModel = keywordListViewModel;
+            _searchViewViewModel = searchViewViewModel;
             _keywordListViewModel.PropertyChanged += keywordListViewModel_PropertyChanged;
 
         }
@@ -49,6 +51,7 @@ namespace LOGrasper.Commands
                 _keywordListViewModel.NewKeyword = _keywordListViewModel.SelectedKeyword.Keyword.ToString();
                 _keywordListViewModel.IsEditing = true;
                 _keywordListViewModel.EditingButton();
+                _searchViewViewModel.MessageDispenser = "Entered Keyword Edit Mode, Click Editing Button to Finish Editing";
             }
         }
         public override bool CanExecute(object? parameter)

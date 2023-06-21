@@ -6,7 +6,6 @@
              xmlns:components="clr-namespace:LOGrasper.Components" 
              xmlns:viewmodels="clr-namespace:LOGrasper.ViewModels" 
              d:DataContext="{d:DesignInstance Type=viewmodels:SearchViewViewModel}"
-
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -36,17 +35,41 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" 
-                           Name="SystemInfo"
-                           Text="{Binding SystemInfo, UpdateSourceTrigger=PropertyChanged}"
-                           Background="Transparent"
-                           Foreground="Azure"/>
+                <TextBox Grid.Row="0" 
+                         Name="SystemInfo"
+                         Text="{Binding SystemInfo, UpdateSourceTrigger=PropertyChanged}"
+                         Background="Transparent"
+                         Foreground="Azure"
+                         BorderThickness="0"                           
+                         IsReadOnly="True"
+                         FontSize="14"
+                         
+                         />
 
-                <TextBlock Grid.Row="1" 
-                           Name="MessageDispenser"
-                           Text="{Binding MessageDispenser, UpdateSourceTrigger=PropertyChanged}"
-                           Background="Transparent"
-                           Foreground="Azure"/>
+                <TextBox Grid.Row="1"
+                         Name="MessageDispenser"
+                         Text="{Binding MessageDispenser, UpdateSourceTrigger=PropertyChanged}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         IsReadOnly="True"
+                         FontSize="14"
+                         FontWeight="DemiBold">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="Azure" />
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="TextBox.TextChanged">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="(TextBox.Foreground).(SolidColorBrush.Color)"
+                                            From="Azure" To="LightSalmon" Duration="0:0:0.5" AutoReverse="True" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
                 <components:LOGrasperRootFolderBrowse Grid.Row="2" DataContext="{Binding RootFolderBrowseViewModel}"/>
 
