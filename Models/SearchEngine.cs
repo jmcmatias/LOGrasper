@@ -18,7 +18,7 @@ using static LOGrasper.Models.OutputObject;
 
 namespace LOGrasper.Models
 {
-    public class SearchEngine : ViewModelBase
+    public class SearchEngine
     {
         private  SearchObject _searchObject;
         private  OutputObject _outputObject = new();
@@ -70,14 +70,8 @@ namespace LOGrasper.Models
 
             await Task.WhenAll(searchTasks);
 
-
             _searchViewViewModel.stopwatch.Stop();
             _searchViewViewModel.StopwatchString = _searchViewViewModel.stopwatch.Elapsed.ToString();
-
-            if (Task.WhenAll(searchTasks) == Task.CompletedTask)
-            {
-                _searchViewViewModel.SearchButton = "Acabou";
-            }
             
             await Application.Current.Dispatcher.InvokeAsync(() =>
             {
@@ -92,8 +86,7 @@ namespace LOGrasper.Models
 
             try
             {
-                
-                    // If the folder has no files skip to the next subfolder
+                   // If the folder has no files skip to the next subfolder
                     if (Directory.GetFiles(folder).Length != 0)
                     {
                         foreach (string file in Directory.GetFiles(folder))
@@ -109,7 +102,7 @@ namespace LOGrasper.Models
                             
                             await Application.Current.Dispatcher.InvokeAsync(() =>
                             {
-                                searchViewViewModel.MessageDispenser = totalFilesSearched*100/totalFiles + "% of files Completed, Searching @>>" + file;
+                                _searchViewViewModel.MessageDispenser = totalFilesSearched*100/totalFiles + "% of files Completed, Searching @>>" + file;
                             });
                             
                         }
@@ -175,10 +168,9 @@ namespace LOGrasper.Models
                     }
                 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                // Display any errors that occur during the process
-                Console.WriteLine($"Error: {e.Message}");
+                _searchViewViewModel.MessageDispenser = "An error has Ocurred while trying to Search in Files: "+ ex.Message;
             }
 
             await Task.WhenAll(searchTasks);

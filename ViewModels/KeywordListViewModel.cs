@@ -33,8 +33,7 @@ public class KeywordListViewModel : ViewModelBase
     public ObservableCollection<KeywordViewModel> _keywordList;
 
     public IEnumerable<KeywordViewModel> KeywordList => _keywordList;
-
-    
+   
 
     public ICommand AddKeywordCommand { get; }
     public ICommand DeleteKeywordCommand { get; }
@@ -114,9 +113,8 @@ public class KeywordListViewModel : ViewModelBase
 
     public KeywordListViewModel(SearchViewViewModel searchViewViewmodel)
     {
-
         _keywordList = new ObservableCollection<KeywordViewModel>();
-        OnPropertyChanged(nameof(_keywordList));
+        //OnPropertyChanged(nameof(_keywordList));
         AddKeywordCommand = new AddKeywordCommand(this, searchViewViewmodel);
         DeleteKeywordCommand = new DeleteKeywordCommand(this, searchViewViewmodel);
         EditKeywordCommand = new EditKeywordCommand(this);
@@ -141,6 +139,17 @@ public class KeywordListViewModel : ViewModelBase
         AddButton = "ADD";
         AddButtonColor = "#FEB1FE";
         AddButtonSize = 40;
+    }
+
+    public bool KeywordExists(string keyword)
+    {
+       
+         if(_keywordList.Any(k => k.Keyword.ToString() == keyword))
+         {
+             return true;
+         }
+         return false;
+        
     }
 }
 

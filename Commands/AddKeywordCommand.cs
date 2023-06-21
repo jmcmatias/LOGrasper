@@ -24,24 +24,31 @@ namespace LOGrasper.Commands
 
         public override void Execute(object? parameter)
         {
-            if (_keywordListViewModel.IsEditing)
+            if (!_keywordListViewModel.KeywordExists(_keywordListViewModel.NewKeyword))
             {
-                int index = _keywordListViewModel._keywordList.IndexOf(_keywordListViewModel.SelectedKeyword);
-                _keywordListViewModel._keywordList.Remove(_keywordListViewModel.SelectedKeyword);
-                _keywordListViewModel._keywordList.Insert(index, new KeywordViewModel(_keywordListViewModel.NewKeyword));
-                _keywordListViewModel.IsEditing = false;
-                _keywordListViewModel.AddingButton();
-            }
-            else
-            {
-                _keywordListViewModel._keywordList.Add(new KeywordViewModel(_keywordListViewModel.NewKeyword));
-            }
+                if (_keywordListViewModel.IsEditing)
+                {
+                    int index = _keywordListViewModel._keywordList.IndexOf(_keywordListViewModel.SelectedKeyword);
+                    _keywordListViewModel._keywordList.Remove(_keywordListViewModel.SelectedKeyword);
+                    _keywordListViewModel._keywordList.Insert(index, new KeywordViewModel(_keywordListViewModel.NewKeyword));
+                    _keywordListViewModel.IsEditing = false;
+                    _keywordListViewModel.AddingButton();
+                }
+                else
+                {
+                    _keywordListViewModel._keywordList.Add(new KeywordViewModel(_keywordListViewModel.NewKeyword));
+                    _keywordListViewModel.NewKeyword = "";
+                }
 
                 if (_keywordListViewModel.KeywordList.Any())
                 {
                     _searchViewViewmodel.HasKeywordList = true;
                 }
-            _keywordListViewModel.NewKeyword = "";
+            }
+            else
+            {
+                _searchViewViewmodel.MessageDispenser = "Keyword already exists in the list, please choose another keyword";
+            }
         }
 
         public override bool CanExecute(object? parameter)
