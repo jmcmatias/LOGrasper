@@ -29,14 +29,21 @@ namespace LOGrasper.Commands
             if (_keywordListViewModel.IsEditing)
             {
                 int index = _keywordListViewModel._keywordList.IndexOf(_keywordListViewModel.SelectedKeyword);
-                _keywordListViewModel._keywordList.Remove(_keywordListViewModel.SelectedKeyword);
-                _keywordListViewModel._keywordList.Insert(index, new KeywordViewModel(_keywordListViewModel.NewKeyword));
-                _keywordListViewModel.IsEditing = false;
-                _keywordListViewModel.AddingButton();
-                _keywordListViewModel.NewKeyword = "";
-                _searchViewViewmodel.MessageDispenser = "";
-                _searchViewViewmodel.MessageDispenser = "Keyword Successfully Edited";
-
+                if (!_keywordListViewModel.KeywordExists(_keywordListViewModel.NewKeyword))
+                {
+                    _keywordListViewModel._keywordList.Remove(_keywordListViewModel.SelectedKeyword);
+                    _keywordListViewModel._keywordList.Insert(index, new KeywordViewModel(_keywordListViewModel.NewKeyword));
+                    _keywordListViewModel.IsEditing = false;
+                    _keywordListViewModel.AddingButton();
+                    _keywordListViewModel.NewKeyword = "";
+                    _searchViewViewmodel.MessageDispenser = "";
+                    _searchViewViewmodel.MessageDispenser = "Keyword Successfully Edited";
+                }
+                else
+                {
+                    _searchViewViewmodel.MessageDispenser = "";
+                    _searchViewViewmodel.MessageDispenser = "Keyword already exists in the list, please change your edited keyword";
+                }
             }
             else
             {

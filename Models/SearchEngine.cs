@@ -32,7 +32,7 @@ namespace LOGrasper.Models
         public static SearchViewViewModel _searchViewViewModel;
 
         private static ConcurrentBag<Task> searchTasks = new ConcurrentBag<Task>();
-        private static readonly SemaphoreSlim maxTasks = new SemaphoreSlim(Environment.ProcessorCount);   // testar várias opções
+        private static SemaphoreSlim? maxTasks;   // testar várias opções
         public static int TotalSearchTasks;
 
         private const int maxLineSize = 9600; // restrict Lines to be presented in UI to 9600 chars, for performance issues, Used for Clipping line contents into Lightcontent
@@ -43,6 +43,7 @@ namespace LOGrasper.Models
             _searchViewViewModel = searchViewViewModel;
             _outputWindowViewModel = searchViewViewModel.OutputWindowViewModel;
             _rootFolderBrowserViewModel = searchViewViewModel.RootFolderBrowseViewModel;
+            maxTasks = _searchViewViewModel.Semaphore;
             TotalSearchTasks = 0;
         }
 
@@ -147,7 +148,10 @@ namespace LOGrasper.Models
 
                             
                             n++;
-                            _searchViewViewModel.SystemInfo = "Number of Search Tasks: " + (Environment.ProcessorCount - maxTasks.CurrentCount);
+
+                            _searchViewViewModel.SystemInfo = "Number of Free Search Tasks Slots: " + maxTasks.CurrentCount;
+                           
+                            
                         }
                         // Output the line if all Keywords were found
                         if (lineFound)

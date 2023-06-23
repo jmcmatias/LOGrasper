@@ -6,7 +6,7 @@ namespace LOGrasper.Commands
     internal class SearchCommand : CommandBase
     {
 
-        public bool _canSearch;
+
 
         private readonly SearchViewViewModel _searchViewViewModel;
         private readonly RootFolderBrowseViewModel _rootFolderBrowseViewModel;
