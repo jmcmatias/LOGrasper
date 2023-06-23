@@ -137,7 +137,7 @@ namespace LOGrasper.Models
                             {
                                 if (line.Length > maxLineSize)
                                 {
-                                    lightContent = line[..maxLineSize] + "\n !!! ATTENTION ... Line lenght was too big and was clipped for performance issues, if you save the output, you will get the full line, thank you ... ATTENTION !!!";
+                                    lightContent = line[..maxLineSize] + "\n !!! ATTENTION ... Line length was too big and was clipped for performance issues, if you save the output, you will get the full line, thank you ... ATTENTION !!!";
                                 }
                                 else lightContent = line;
 
