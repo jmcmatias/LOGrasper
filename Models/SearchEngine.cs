@@ -144,8 +144,7 @@ namespace LOGrasper.Models
                             
                             n++;
 
-                            _searchViewViewModel.SystemInfo = "Number of Free Search Tasks Slots: " + maxTasks.CurrentCount;
-                           
+                            _searchViewViewModel.SystemInfo = "Number of Free Search Tasks Slots: " + maxTasks.CurrentCount;                          
                             
                         }
                         // Output the line if all Keywords were found

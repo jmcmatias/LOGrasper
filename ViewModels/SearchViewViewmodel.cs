@@ -57,7 +57,19 @@ public class SearchViewViewModel : ViewModelBase
         set
         {   
             _semaphoreUpdate = value;
-            _semaphore = new SemaphoreSlim(_semaphoreUpdate);
+            if (_semaphoreUpdate <= 0)
+            {
+                NumberOfTasks = 1;
+                _semaphoreUpdate = 1;
+                MessageDispenser = "You cannot choose 0 Parallel SearchTasks, minimum is 1";
+                _semaphore = new SemaphoreSlim(_semaphoreUpdate);
+            }
+            else
+            {
+                _semaphore = new SemaphoreSlim(_semaphoreUpdate);
+                MessageDispenser = "You have chosen " + _semaphoreUpdate + " Parallel Search Tasks";
+            }
+           
             OnPropertyChanged(nameof(SemaphoreUpdate));        
         }
     }

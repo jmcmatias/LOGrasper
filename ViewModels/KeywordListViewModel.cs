@@ -12,13 +12,14 @@ using System.Windows.Data;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Documents;
+using System.Windows.Controls;
 
 namespace LOGrasper.ViewModels;
 
 public class KeywordListViewModel : ViewModelBase
 {
 
-    private string _newKeyword;
+    private string _newKeyword = "Add Keywords";
 
     private KeywordViewModel _selectedKeyword;
 
@@ -158,6 +159,8 @@ public class KeywordListViewModel : ViewModelBase
          }
          return false;   
     }
+
+
 }
 
 

@@ -71,7 +71,7 @@ namespace LOGrasper.Commands
 
         public override bool CanExecute(object? parameter)
         {
-            return !string.IsNullOrEmpty(_keywordListViewModel.NewKeyword) && base.CanExecute(parameter);
+            return !string.IsNullOrEmpty(_keywordListViewModel.NewKeyword) && base.CanExecute(parameter) && _keywordListViewModel.NewKeyword != "Add Keywords";
         }
 
         private void keywordListViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
