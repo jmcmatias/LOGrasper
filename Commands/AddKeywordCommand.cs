@@ -12,6 +12,7 @@ namespace LOGrasper.Commands
         private readonly KeywordListViewModel _keywordListViewModel;
         private readonly SearchViewViewModel _searchViewViewmodel;
 
+
         public AddKeywordCommand(KeywordListViewModel KeywordListViewModel, SearchViewViewModel searchViewViewmodel)
         {
             _keywordListViewModel = KeywordListViewModel;
@@ -28,9 +29,12 @@ namespace LOGrasper.Commands
 
             if (_keywordListViewModel.IsEditing)
             {
-                int index = _keywordListViewModel._keywordList.IndexOf(_keywordListViewModel.SelectedKeyword);
-                if (!_keywordListViewModel.KeywordExists(_keywordListViewModel.NewKeyword))
+
+                
+
+                if (!_keywordListViewModel.KeywordExists(_keywordListViewModel.NewKeyword) || (_keywordListViewModel.NewKeyword == _keywordListViewModel.SelectedKeyword.Keyword.ToString()))
                 {
+                    int index = _keywordListViewModel._keywordList.IndexOf(_keywordListViewModel.SelectedKeyword);
                     _keywordListViewModel._keywordList.Remove(_keywordListViewModel.SelectedKeyword);
                     _keywordListViewModel._keywordList.Insert(index, new KeywordViewModel(_keywordListViewModel.NewKeyword));
                     _keywordListViewModel.IsEditing = false;
