@@ -50,6 +50,7 @@ namespace LOGrasper.Commands
             {
                 _keywordListViewModel.NewKeyword = _keywordListViewModel.SelectedKeyword.Keyword.ToString();
                 _keywordListViewModel.IsEditing = true;
+                _keywordListViewModel.SelectKeywordUnlock = !_keywordListViewModel.IsEditing;
                 _keywordListViewModel.EditingButton();
                 _searchViewViewModel.MessageDispenser = "Entered Keyword Edit Mode, Click Editing Button to Finish Editing";
             }

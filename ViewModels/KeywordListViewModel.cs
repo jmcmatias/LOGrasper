@@ -22,7 +22,8 @@ public class KeywordListViewModel : ViewModelBase
 
     private KeywordViewModel _selectedKeyword;
 
-    private bool _isEditing = false;
+    private static bool _isEditing = false;
+    private static bool _selectKeywordUnlock = true;
 
     private bool _notEmpty = false;
 
@@ -58,7 +59,6 @@ public class KeywordListViewModel : ViewModelBase
             OnPropertyChanged(nameof(SelectedKeyword));
         }
     }
-
     public bool NotEmpty
     {
         get { return _notEmpty; }
@@ -78,6 +78,16 @@ public class KeywordListViewModel : ViewModelBase
             OnPropertyChanged(nameof(IsEditing));
         }
     }
+    public bool SelectKeywordUnlock
+    {
+        get { return _selectKeywordUnlock; }
+        set
+        {
+            _selectKeywordUnlock = value;
+            OnPropertyChanged(nameof(SelectKeywordUnlock));
+        }
+    }
+
 
     public string AddButton
     {
@@ -143,13 +153,11 @@ public class KeywordListViewModel : ViewModelBase
 
     public bool KeywordExists(string keyword)
     {
-       
          if(_keywordList.Any(k => k.Keyword.ToString() == keyword))
          {
              return true;
          }
-         return false;
-        
+         return false;   
     }
 }
 

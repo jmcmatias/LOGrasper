@@ -25,19 +25,16 @@ namespace LOGrasper.Commands
 
         public override void Execute(object? parameter)
         {
-
-
             if (_keywordListViewModel.IsEditing)
             {
-
-                
-
+                // If the new keyword doesnt exit or if the new keyword is the same as the selected one
                 if (!_keywordListViewModel.KeywordExists(_keywordListViewModel.NewKeyword) || (_keywordListViewModel.NewKeyword == _keywordListViewModel.SelectedKeyword.Keyword.ToString()))
                 {
                     int index = _keywordListViewModel._keywordList.IndexOf(_keywordListViewModel.SelectedKeyword);
                     _keywordListViewModel._keywordList.Remove(_keywordListViewModel.SelectedKeyword);
                     _keywordListViewModel._keywordList.Insert(index, new KeywordViewModel(_keywordListViewModel.NewKeyword));
                     _keywordListViewModel.IsEditing = false;
+                    _keywordListViewModel.SelectKeywordUnlock = !_keywordListViewModel.IsEditing;
                     _keywordListViewModel.AddingButton();
                     _keywordListViewModel.NewKeyword = "";
                     _searchViewViewmodel.MessageDispenser = "";

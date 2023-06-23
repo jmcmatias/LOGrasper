@@ -81,6 +81,7 @@
                       Height="auto"
                       Background="#D9D9D9"
                       SelectedItem="{Binding SelectedKeyword}"
+                      IsEnabled="{Binding SelectKeywordUnlock}"
                       BorderThickness="0">
                 
                 <ListView.ItemContainerStyle>

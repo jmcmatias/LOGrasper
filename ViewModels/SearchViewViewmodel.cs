@@ -27,7 +27,6 @@ public class SearchViewViewModel : ViewModelBase
     private string _systemInfo;
 
     private string _stopwatch;
-
     public Stopwatch stopwatch;
 
     private bool _hasKeywordList = false;
@@ -59,8 +58,7 @@ public class SearchViewViewModel : ViewModelBase
         {   
             _semaphoreUpdate = value;
             _semaphore = new SemaphoreSlim(_semaphoreUpdate);
-            OnPropertyChanged(nameof(SemaphoreUpdate));
-           
+            OnPropertyChanged(nameof(SemaphoreUpdate));        
         }
     }
 
