@@ -1,30 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Xceed.Wpf.Toolkit;
 
 
 namespace LOGrasper.Views
 {
-    /// <summary>
-    /// Interação lógica para LOGrasperSearch.xaml
-    /// </summary>
     public partial class LOGrasperSearchView : UserControl
     {
         public LOGrasperSearchView()
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// Method to keep the entries for the TextInput of the  numerical and > 1
+        /// </summary>
+        private void IntegerUpDown_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!int.TryParse(e.Text, out _) || int.Parse(e.Text) < 0)
+            {
+                e.Handled = true;
+            }
+        }
+
 
     }
 }

@@ -13,10 +13,12 @@ using System.Linq;
 using System.Printing;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using static LOGrasper.Models.OutputObject;
+using Path = System.IO.Path;
 
 namespace LOGrasper.ViewModels;
 
@@ -91,50 +93,77 @@ public class OutputWindowViewModel : ViewModelBase
     {
         _foundInFiles.Clear();
         FoundInFilesEmpty = true;
+        _searchViewViewModel.MessageDispenser = "Output Cleared";
     }
 
     public void SaveOutput(string stopwatch)
     {
-        VistaSaveFileDialog dialog = new VistaSaveFileDialog()
+        try
         {
-            Filter = "txt|*.txt",
-            AddExtension = true,
-            OverwritePrompt = true,
-            DefaultExt = ".txt",
-            FileName = "SearchResult"
-        };
-
-        dialog.ShowDialog();
-
-        string filename = dialog.FileName;
-        ;
-
-        if (filename != null)
-        {
-            TextWriter tw = new StreamWriter(filename);
-
-            tw.WriteLine("Search took " + stopwatch + " to search the keywords:");
-            foreach (string kw in _searchViewViewModel.SearchObject._keywordList)
+            VistaSaveFileDialog dialog = new VistaSaveFileDialog()
             {
-                tw.WriteLine("-"+kw);
-            }
+                Filter = "txt|*.txt",
+                AddExtension = true,
+                OverwritePrompt = true,
+                DefaultExt = ".txt",
+                FileName = "SearchResult"
+            };
 
-            tw.WriteLine("From a total of " + Math.Ceiling(_rootFolderBrowseViewModel.TotalSizeMB) + " MB");
-            
-        foreach (var file in _foundInFiles)
+            dialog.ShowDialog();
+
+            string filename = dialog.FileName;
+
+            if (filename != null)
             {
-                tw.Write("\n" + file.LinesFound.Count() + " Lines found @File -> ");
-                tw.WriteLine(file.FileName);
-                foreach (var line in file.LinesFound)
+                TextWriter tw = new StreamWriter(filename);
+
+                tw.WriteLine("Search took " + stopwatch + " to search the keywords:");
+                foreach (string kw in _searchViewViewModel.SearchObject._keywordList)
                 {
-                    tw.WriteLine("    " + line.DisplayLine);
+                    tw.WriteLine("-" + kw);
                 }
-                tw.WriteLine();
-            }
-            tw.Close();
-        }
-        
 
+                tw.WriteLine("From a total of " + Math.Ceiling(_rootFolderBrowseViewModel.TotalSizeMB) + " MB");
+
+                foreach (var file in _foundInFiles)
+                {
+                    tw.Write("\n" + file.LinesFound.Count() + " Lines found @File -> ");
+                    tw.WriteLine(file.FileName);
+                    foreach (var line in file.LinesFound)
+                    {
+                        tw.WriteLine(line.DisplayLine);
+                    }
+                    tw.WriteLine();
+                }
+                tw.Close();
+            }
+       
+
+        if (File.Exists(filename))
+        {
+                try
+                {
+                    // Start the process for the specific file using the default application
+                    ProcessStartInfo processStartInfo = new(filename)
+                    {
+                        UseShellExecute = true
+                    };
+                    Process.Start(processStartInfo);
+                }
+                catch (Exception ex)
+                {
+                    _searchViewViewModel.MessageDispenser = "An Error Ocurred while Opening the saved file -> " + ex.Message;
+                }
+        }
+        else
+        {
+            _searchViewViewModel.MessageDispenser = "File was not created successfully, please try again.";
+        }
+        }
+        catch (Exception ex)
+        {
+            _searchViewViewModel.MessageDispenser = "Error Creating output file -> " + ex.Message;
+        }
     }
 
 

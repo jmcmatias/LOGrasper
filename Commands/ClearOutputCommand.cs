@@ -29,10 +29,11 @@ namespace LOGrasper.Commands
         {
             _outputWindowViewModel.ClearOutput();
             _searchViewViewModel.GetDirectoryStatistics();
+            _searchViewViewModel.GetSystemInfo();
         }
 
         public override bool CanExecute(object? parameter)
-        {
+        {       
             return !_outputWindowViewModel.FoundInFilesEmpty;
         }
 

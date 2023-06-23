@@ -12,17 +12,19 @@ using System.Windows.Data;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Documents;
+using System.Windows.Controls;
 
 namespace LOGrasper.ViewModels;
 
 public class KeywordListViewModel : ViewModelBase
 {
 
-    private string _newKeyword;
+    private string _newKeyword = "Add Keywords";
 
     private KeywordViewModel _selectedKeyword;
 
-    private bool _isEditing = false;
+    private static bool _isEditing = false;
+    private static bool _selectKeywordUnlock = true;
 
     private bool _notEmpty = false;
 
@@ -33,8 +35,7 @@ public class KeywordListViewModel : ViewModelBase
     public ObservableCollection<KeywordViewModel> _keywordList;
 
     public IEnumerable<KeywordViewModel> KeywordList => _keywordList;
-
-    
+   
 
     public ICommand AddKeywordCommand { get; }
     public ICommand DeleteKeywordCommand { get; }
@@ -59,7 +60,6 @@ public class KeywordListViewModel : ViewModelBase
             OnPropertyChanged(nameof(SelectedKeyword));
         }
     }
-
     public bool NotEmpty
     {
         get { return _notEmpty; }
@@ -77,6 +77,15 @@ public class KeywordListViewModel : ViewModelBase
         {
             _isEditing = value;
             OnPropertyChanged(nameof(IsEditing));
+        }
+    }
+    public bool SelectKeywordUnlock
+    {
+        get { return _selectKeywordUnlock; }
+        set
+        {
+            _selectKeywordUnlock = value;
+            OnPropertyChanged(nameof(SelectKeywordUnlock));
         }
     }
 
@@ -114,12 +123,11 @@ public class KeywordListViewModel : ViewModelBase
 
     public KeywordListViewModel(SearchViewViewModel searchViewViewmodel)
     {
-
         _keywordList = new ObservableCollection<KeywordViewModel>();
-        OnPropertyChanged(nameof(_keywordList));
+        //OnPropertyChanged(nameof(_keywordList));
         AddKeywordCommand = new AddKeywordCommand(this, searchViewViewmodel);
         DeleteKeywordCommand = new DeleteKeywordCommand(this, searchViewViewmodel);
-        EditKeywordCommand = new EditKeywordCommand(this);
+        EditKeywordCommand = new EditKeywordCommand(this, searchViewViewmodel);
     }
 
     public KeywordListViewModel(ICommand addKeywordCommand, ICommand deleteKeywordCommand, ICommand editKeywordCommand)
@@ -142,6 +150,17 @@ public class KeywordListViewModel : ViewModelBase
         AddButtonColor = "#FEB1FE";
         AddButtonSize = 40;
     }
+
+    public bool KeywordExists(string keyword)
+    {
+         if(_keywordList.Any(k => k.Keyword.ToString() == keyword))
+         {
+             return true;
+         }
+         return false;   
+    }
+
+
 }
 
 

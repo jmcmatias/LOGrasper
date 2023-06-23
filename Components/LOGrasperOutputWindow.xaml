@@ -18,42 +18,47 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <!-- Start TreeView-->
-            
+
 
             <Border Background="#D9D9D9"
                     CornerRadius="4"
                     Grid.Row="0"
                     Margin="0 5 5 0"
-                    Padding="5">
+                    Padding="2"     
+                    >
 
                 <TreeView x:Name="MainTreeView"
                           HorizontalAlignment="Stretch"
-                          Background="#D9D9D9"
-                          VerticalAlignment="Stretch"
+                          Background="#D9D9D9"                        
                           BorderThickness="0"
                           ItemsSource="{Binding FoundInFiles}"                          
                           >
-       
+
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding LinesFound}"
                                                   DataType="{x:Type viewmodels:FoundInFileViewModel}">
                             <Label Content="{Binding FileName}"
                                    FontWeight="Bold"
-                                   FontSize="14"/>
+                                   FontSize="14"
+                                   Background="#D9D9D9"
+                                   />
                             <HierarchicalDataTemplate.ItemTemplate>
-                                <HierarchicalDataTemplate 
-                                                          DataType="{x:Type viewmodels:LineInfoViewModel}">
-                                    <Label Content="{Binding DisplayLine}" />
-
+                                <HierarchicalDataTemplate DataType="{x:Type viewmodels:LineInfoViewModel}">
+                                   
+                                        <TextBox Text="{Binding DisplayLineLight, Mode=OneWay}" 
+                                                 IsReadOnly="true"                                             
+                                                 TextWrapping="NoWrap"
+                                                 IsReadOnlyCaretVisible="True"
+                                                 Background="#fffaf0"
+                                                 BorderThickness="0.6"
+                                                 Margin="2"
+                                                 Foreground="#5d5555"
+                                                 />
                                 </HierarchicalDataTemplate>
                             </HierarchicalDataTemplate.ItemTemplate>
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
-
                 </TreeView>
-
-
-
             </Border>
 
             <!-- End TreeView-->

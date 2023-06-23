@@ -11,10 +11,33 @@ namespace LOGrasper.Components
     /// </summary>
     public partial class LOGrasperKeywordList : UserControl 
     {
+        private bool firstFocus = true;
         public LOGrasperKeywordList()
         {
             InitializeComponent();
         }
 
+        public void KeywordFormGotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            
+            if (firstFocus)
+            {
+                textBox.Text = string.Empty;
+                firstFocus = false;
+            }
+            
+        }
+
+        private void KeywordColumn_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(sender is DataGridTextColumn column)
+            {
+                if(FindName("Notice") is TextBox noticeTextBox)
+                {
+                    column.MinWidth = noticeTextBox.ActualWidth;
+                }
+            }
+        }
     }
 }

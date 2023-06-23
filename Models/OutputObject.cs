@@ -49,14 +49,16 @@ namespace LOGrasper.Models
             /// </summary>
             public class LineInfo
             {
-                public LineInfo(int number, string content)
+                public LineInfo(int number, string content, string lightContent)
                 {
                     Number = number;
                     Content = content;
+                    LightContent = lightContent;
                 }
 
                 public int Number { get; set; }
                 public string Content { get; set; }
+                public string LightContent { get; set; }
             }
         }
 

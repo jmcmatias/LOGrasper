@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LOGrasper.Commands;
 using System.Windows.Input;
 using System.IO;
-using System.Windows.Forms;
+
 
 namespace LOGrasper.ViewModels
 {
     public class RootFolderBrowseViewModel : ViewModelBase
     {
+        private static SearchViewViewModel _searchViewViewModel;
+
         private string _rootFolderPath;
         private bool _folderExists = false;
 
@@ -51,13 +49,10 @@ namespace LOGrasper.ViewModels
         }
         public ICommand RootFolderBrowseCommand { get; }
 
-        public RootFolderBrowseViewModel(string rootFolder)
-        {
-            _rootFolderPath = rootFolder;
-        }
 
         public RootFolderBrowseViewModel(SearchViewViewModel searchViewViewmodel) 
         {
+            _searchViewViewModel = searchViewViewmodel;
             RootFolderPath = "Please Select Root Folder";
             RootFolderBrowseCommand = new RootFolderBrowseCommand(this, searchViewViewmodel);
 
@@ -66,26 +61,33 @@ namespace LOGrasper.ViewModels
 
         public void CalculateDirectoryStats(string directoryPath, ref long totalSizeBytes, ref int folderCount, ref int fileCount)
         {
-            if (Directory.Exists(directoryPath))
+            try
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
-
-                // Update folder count
-                folderCount++;
-
-                // Calculate size of files in the current directory
-                foreach (FileInfo file in directoryInfo.GetFiles())
+                if (Directory.Exists(directoryPath))
                 {
-                    totalSizeBytes += file.Length;
-                    fileCount++;
-                }
+                    DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
 
-                // Calculate size of subdirectories recursively
-                foreach (DirectoryInfo subDirectory in directoryInfo.GetDirectories())
-                {
-                    // Recursive call to calculate stats for subdirectory
-                    CalculateDirectoryStats(subDirectory.FullName, ref totalSizeBytes, ref folderCount, ref fileCount);
+                    // Update folder count
+                    folderCount++;
+
+                    // Calculate size of files in the current directory
+                    foreach (FileInfo file in directoryInfo.GetFiles())
+                    {
+                        totalSizeBytes += file.Length;
+                        fileCount++;
+                    }
+
+                    // Calculate size of subdirectories recursively
+                    foreach (DirectoryInfo subDirectory in directoryInfo.GetDirectories())
+                    {
+                        // Recursive call to calculate stats for subdirectory
+                        CalculateDirectoryStats(subDirectory.FullName, ref totalSizeBytes, ref folderCount, ref fileCount);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                _searchViewViewModel.MessageDispenser = "An error ocurred while retriving DirectoryStats: " + ex.Message;
             }
         }
 
