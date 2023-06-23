@@ -4,16 +4,11 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Principal;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Shapes;
 using static LOGrasper.Models.OutputObject;
 
 namespace LOGrasper.Models
@@ -48,7 +43,7 @@ namespace LOGrasper.Models
         }
 
 
-        public async Task SearchAC(bool cancelSearch)
+        public async Task SearchAC()
         {
             _searchViewViewModel.stopwatch = new();
 

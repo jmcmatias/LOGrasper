@@ -145,7 +145,7 @@ public class SearchViewViewModel : ViewModelBase
 
         SearchEngine go = new(SearchObject, this);
 
-        Task search = Task.Run(() => go.SearchAC(CancellationFlag));
+        Task search = Task.Run(() => go.SearchAC());
 
         await search;
 

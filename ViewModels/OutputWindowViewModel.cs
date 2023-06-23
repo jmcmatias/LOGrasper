@@ -98,49 +98,49 @@ public class OutputWindowViewModel : ViewModelBase
 
     public void SaveOutput(string stopwatch)
     {
-        VistaSaveFileDialog dialog = new VistaSaveFileDialog()
+        try
         {
-            Filter = "txt|*.txt",
-            AddExtension = true,
-            OverwritePrompt = true,
-            DefaultExt = ".txt",
-            FileName = "SearchResult"
-        };
-
-        dialog.ShowDialog();
-
-        string filename = dialog.FileName;
-        
-        if (filename != null)
-        {
-            TextWriter tw = new StreamWriter(filename);
-
-            tw.WriteLine("Search took " + stopwatch + " to search the keywords:");
-            foreach (string kw in _searchViewViewModel.SearchObject._keywordList)
+            VistaSaveFileDialog dialog = new VistaSaveFileDialog()
             {
-                tw.WriteLine("-"+kw);
-            }
+                Filter = "txt|*.txt",
+                AddExtension = true,
+                OverwritePrompt = true,
+                DefaultExt = ".txt",
+                FileName = "SearchResult"
+            };
 
-            tw.WriteLine("From a total of " + Math.Ceiling(_rootFolderBrowseViewModel.TotalSizeMB) + " MB");
-            
-        foreach (var file in _foundInFiles)
+            dialog.ShowDialog();
+
+            string filename = dialog.FileName;
+
+            if (filename != null)
             {
-                tw.Write("\n" + file.LinesFound.Count() + " Lines found @File -> ");
-                tw.WriteLine(file.FileName);
-                foreach (var line in file.LinesFound)
+                TextWriter tw = new StreamWriter(filename);
+
+                tw.WriteLine("Search took " + stopwatch + " to search the keywords:");
+                foreach (string kw in _searchViewViewModel.SearchObject._keywordList)
                 {
-                    tw.WriteLine(line.DisplayLine);
+                    tw.WriteLine("-" + kw);
                 }
-                tw.WriteLine();
+
+                tw.WriteLine("From a total of " + Math.Ceiling(_rootFolderBrowseViewModel.TotalSizeMB) + " MB");
+
+                foreach (var file in _foundInFiles)
+                {
+                    tw.Write("\n" + file.LinesFound.Count() + " Lines found @File -> ");
+                    tw.WriteLine(file.FileName);
+                    foreach (var line in file.LinesFound)
+                    {
+                        tw.WriteLine(line.DisplayLine);
+                    }
+                    tw.WriteLine();
+                }
+                tw.Close();
             }
-            tw.Close();
-        }
+       
 
         if (File.Exists(filename))
         {
-            // Check if the file has a .txt extension
-            if (Path.GetExtension(filename).Equals(".txt", StringComparison.OrdinalIgnoreCase))
-            {
                 try
                 {
                     // Start the process for the specific file using the default application
@@ -152,19 +152,18 @@ public class OutputWindowViewModel : ViewModelBase
                 }
                 catch (Exception ex)
                 {
-                    _searchViewViewModel.MessageDispenser = "An Error Ocurred while Opening the saved file" + ex.Message;
+                    _searchViewViewModel.MessageDispenser = "An Error Ocurred while Opening the saved file -> " + ex.Message;
                 }
-            }
-            else
-            {
-                MessageBox.Show("The file is not a text file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
         else
         {
-            MessageBox.Show("File was not created successfully.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            _searchViewViewModel.MessageDispenser = "File was not created successfully, please try again.";
         }
-
+        }
+        catch (Exception ex)
+        {
+            _searchViewViewModel.MessageDispenser = "Error Creating output file -> " + ex.Message;
+        }
     }
 
 

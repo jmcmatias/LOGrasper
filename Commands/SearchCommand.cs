@@ -37,10 +37,10 @@ namespace LOGrasper.Commands
 
         public override void Execute(object? parameter)
         {
-            _searchViewViewModel.OutputWindowViewModel.ClearOutput();
-            
+           
             if (_searchViewViewModel.SearchButton == "SEARCH")
             {
+                _searchViewViewModel.OutputWindowViewModel.ClearOutput();
                 _searchViewViewModel.CancellationFlag = false;
                 _ = _searchViewViewModel.InitiateAsyncSearch(_rootFolderBrowseViewModel, _keywordListViewModel);
                 _searchViewViewModel.SearchButton = "STOP SEARCH";

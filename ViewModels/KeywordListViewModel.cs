@@ -88,7 +88,6 @@ public class KeywordListViewModel : ViewModelBase
         }
     }
 
-
     public string AddButton
     {
         get => _AddButton;

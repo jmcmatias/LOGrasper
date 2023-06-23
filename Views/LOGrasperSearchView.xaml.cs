@@ -17,7 +17,7 @@ namespace LOGrasper.Views
         /// </summary>
         private void IntegerUpDown_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (!int.TryParse(e.Text, out _) || int.Parse(e.Text) < 1)
+            if (!int.TryParse(e.Text, out _) || int.Parse(e.Text) < 0)
             {
                 e.Handled = true;
             }

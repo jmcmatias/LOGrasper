@@ -7,7 +7,7 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:KeywordListViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
 
     <Grid Background="#686862" Height="Auto">
 
@@ -36,7 +36,7 @@
                 <TextBox.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding AddKeywordCommand}" />
                 </TextBox.InputBindings>
-                    
+
                 <TextBox.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="4 0 0 4"></Setter>
@@ -75,51 +75,80 @@
 
 
         <Border Background="#D9D9D9" CornerRadius="4" Grid.Row="1" Margin="6 6 1 0" Padding="5" >
-            
-            <ListView ItemsSource="{Binding KeywordList}"
-                      Grid.Row="1"
-                      Height="auto"
-                      Background="#D9D9D9"
-                      SelectedItem="{Binding SelectedKeyword}"
-                      IsEnabled="{Binding SelectKeywordUnlock}"
-                      BorderThickness="0">
-                
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment"
-                                Value="stretch" />
-                    </Style>
-                </ListView.ItemContainerStyle>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn>
-                            
-                                <GridViewColumnHeader IsEnabled="False"
-                                                  Content="Keywords:"
-                                                  FontSize="16"
-                                                  FontWeight="Bold"
-                                                  Background="#D9D9D9" 
-                                                  BorderBrush="Transparent"
-                                                  MinWidth="500"
-                                                  HorizontalContentAlignment="Left"
-                                                  
-                                                  />
-                                                  
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock HorizontalAlignment="Left"
-                                               Text="{Binding Keyword}"
-                                               />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
+                <TextBlock Grid.Row="0" Text="Keyword List:" Margin="5 0 0 0" FontWeight="Bold" FontSize="20"/>
 
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
+                <TextBox Grid.Row="1" Text="PLEASE NOTICE: Keywords are CASE SENSITIVE.&#x0a;LOGrasper will only output Lines that contain ALL the Keywords in this List." Margin="0 0 0 5" FontSize="12" Width="Auto" Height="Auto" TextWrapping="WrapWithOverflow" />
 
+                <Grid  Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-            </ListView>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+
+                        <DataGrid ItemsSource="{Binding KeywordList}"
+                              Grid.Column="0"
+                              Height="Auto"
+                              Background="#D9D9D9"
+                              SelectedItem="{Binding SelectedKeyword}"
+                              IsEnabled="{Binding SelectKeywordUnlock}"
+                              BorderThickness="0"
+                              GridLinesVisibility="None"
+                              AutoGenerateColumns="False"
+                              HeadersVisibility="None"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              SelectionMode="Single"
+                              SelectionUnit="FullRow"
+                              Name="KeywordDataGrid"
+                              HorizontalAlignment="Stretch"
+                              IsReadOnly="True"                              
+                              >
+                            <DataGrid.Resources>
+                                <SolidColorBrush x:Key="SelectedRowBrush" Color="#C57423"/>
+                            </DataGrid.Resources>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource SelectedRowBrush}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Keyword}"
+                                                FontSize="16"
+                                                FontWeight="Bold"
+                                                MinWidth="365"
+                                                Width="auto"/>
+                            </DataGrid.Columns>
+
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderThickness" Value="1" />
+
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource SelectedRowBrush}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                        </DataGrid>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
         </Border>
 
         <Grid Grid.Row="2">
