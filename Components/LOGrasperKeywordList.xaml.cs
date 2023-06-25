@@ -1,6 +1,4 @@
-﻿using LOGrasper.Models;
-using LOGrasper.Views;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 

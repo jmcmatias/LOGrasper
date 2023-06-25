@@ -1,7 +1,5 @@
-﻿
-using LOGrasper.ViewModels;
+﻿using LOGrasper.ViewModels;
 using System.Linq;
-
 
 namespace LOGrasper.Commands
 {
