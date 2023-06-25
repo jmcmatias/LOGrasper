@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <None Remove="Images\icon_ver1.ico" />
+    <None Remove="Images\Omnibees_logo.png" />
+    <None Remove="Images\UAB_logo.png" />
   </ItemGroup>
 
 
@@ -24,6 +26,12 @@
 
   <ItemGroup>
     <Resource Include="Images\icon_ver1.ico" />
+    <Resource Include="Images\Omnibees_logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\UAB_logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

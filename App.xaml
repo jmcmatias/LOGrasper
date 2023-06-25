@@ -20,7 +20,6 @@
          
             
             <Style TargetType="TextBox">
-                <Setter Property="AcceptsReturn" Value="True"/>
                 <Setter Property="AcceptsTab" Value="True"/>
                 <Setter Property="VerticalContentAlignment" Value="Bottom"/>
                 <Setter Property="Padding" Value="2 0 0 2"/>

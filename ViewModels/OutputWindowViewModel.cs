@@ -4,21 +4,11 @@ using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Packaging;
 using System.Linq;
-using System.Printing;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using static LOGrasper.Models.OutputObject;
-using Path = System.IO.Path;
 
 namespace LOGrasper.ViewModels;
 
@@ -28,8 +18,17 @@ public class OutputWindowViewModel : ViewModelBase
     private readonly OutputObject _outputObject = new();
     private bool _foundInFilesEmpty = true;
 
-    private readonly SearchViewViewModel _searchViewViewModel;
+    private static SearchViewViewModel _searchViewViewModel;
     private readonly RootFolderBrowseViewModel _rootFolderBrowseViewModel;
+
+    public SearchViewViewModel MainViewModel 
+    {
+        get { return _searchViewViewModel; }
+        set
+        {
+            _searchViewViewModel = value;
+        } 
+    }
 
     public IEnumerable<FoundInFileViewModel> FoundInFiles
     {
@@ -146,13 +145,13 @@ public class OutputWindowViewModel : ViewModelBase
                     // Start the process for the specific file using the default application
                     ProcessStartInfo processStartInfo = new(filename)
                     {
-                        UseShellExecute = true
+                        UseShellExecute = true          // Uses the windows shell to execute the default application for the extension
                     };
                     Process.Start(processStartInfo);
                 }
                 catch (Exception ex)
                 {
-                    _searchViewViewModel.MessageDispenser = "An Error Ocurred while Opening the saved file -> " + ex.Message;
+                    _searchViewViewModel.MessageDispenser = ex.Message;
                 }
         }
         else
@@ -162,9 +161,7 @@ public class OutputWindowViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            _searchViewViewModel.MessageDispenser = "Error Creating output file -> " + ex.Message;
+            _searchViewViewModel.MessageDispenser = ex.Message;
         }
     }
-
-
 }

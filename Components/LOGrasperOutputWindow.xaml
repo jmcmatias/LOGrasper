@@ -37,15 +37,17 @@
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding LinesFound}"
                                                   DataType="{x:Type viewmodels:FoundInFileViewModel}">
-                            <Label Content="{Binding FileName}"
+                            <Label x:Name="FileNameLabel"
+                                   Content="{Binding FileName}"
                                    FontWeight="Bold"
                                    FontSize="14"
                                    Background="#D9D9D9"
+                                   MouseDoubleClick="Label_MouseDoubleClick"
                                    />
                             <HierarchicalDataTemplate.ItemTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type viewmodels:LineInfoViewModel}">
-                                   
-                                        <TextBox Text="{Binding DisplayLineLight, Mode=OneWay}" 
+
+                                    <TextBox Text="{Binding DisplayLineLight, Mode=OneWay}" 
                                                  IsReadOnly="true"                                             
                                                  TextWrapping="NoWrap"
                                                  IsReadOnlyCaretVisible="True"
@@ -101,6 +103,39 @@
                         </Style>
                     </Button.Resources>
                 </Button>
+
+                <Grid Grid.Column="2" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
+                           Text=" Developed by Jorge Matias  -  jorge.matias.dev@gmail.com  -  Project Advisory by PhD Ricardo Baptista&#x0a;
+Computer Engineering Project    ------    Degree in Computer Engineering    -----    Universidade Aberta&#x0a;
+Sponsored by Omnibees S.A.    ------------    Special thanks to Nuno Santos for suggestions and advices"
+                           Margin="5 5 0 5"
+                           HorizontalAlignment="right"
+                           VerticalAlignment="Center"
+                           Foreground="Azure"
+                           FontSize="10"
+                           />
+
+                        <Image x:Name="UAB"
+                               Source="/Images/UAB_logo.png" 
+                               Stretch="Uniform" 
+                               HorizontalAlignment="Left" 
+                               Margin="8 8 0 8"
+                               Mouse.MouseDown="Image_MouseClick"
+                               Cursor="Hand"
+                               />
+
+                        <Image x:Name="Omnibees"
+                               Source="/Images/Omnibees_logo.png" 
+                               Stretch="Uniform" 
+                               HorizontalAlignment="Right" 
+                               Margin="8 8 6 8"
+                               Mouse.MouseDown="Image_MouseClick"
+                               Cursor="Hand"
+                               />
+                    </StackPanel>
+                </Grid>
             </Grid>
 
         </Grid>
