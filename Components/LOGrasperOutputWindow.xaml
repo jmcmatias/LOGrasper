@@ -107,7 +107,9 @@
                 <Grid Grid.Column="2" HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock 
-                           Text="Developed by Jorge Matias                                Project Advisory by PhD Ricardo Baptista  &#x0a;Computer Engineering Project - Degree in Computer Engineering - Universidade Aberta&#x0a;Sponsored by Omnibees S.A."
+                           Text=" Developed by Jorge Matias  -  jorge.matias.dev@gmail.com  -  Project Advisory by PhD Ricardo Baptista&#x0a;
+Computer Engineering Project    ------    Degree in Computer Engineering    -----    Universidade Aberta&#x0a;
+Sponsored by Omnibees S.A.    ------------    Special thanks to Nuno Santos for suggestions and advices"
                            Margin="5 5 0 5"
                            HorizontalAlignment="right"
                            VerticalAlignment="Center"
