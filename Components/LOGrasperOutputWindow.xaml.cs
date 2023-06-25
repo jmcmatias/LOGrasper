@@ -80,7 +80,6 @@ namespace LOGrasper.Components
                     case "Omnibees":
                         url = "https://omnibees.com/";
                         break;
-
                 }
                 try
                 {

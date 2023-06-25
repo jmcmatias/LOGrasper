@@ -119,7 +119,7 @@
                                Source="/Images/UAB_logo.png" 
                                Stretch="Uniform" 
                                HorizontalAlignment="Left" 
-                               Margin="6 6 0 8"
+                               Margin="8 8 0 8"
                                Mouse.MouseDown="Image_MouseClick"
                                Cursor="Hand"
                                />
@@ -128,7 +128,7 @@
                                Source="/Images/Omnibees_logo.png" 
                                Stretch="Uniform" 
                                HorizontalAlignment="Right" 
-                               Margin="6 6 6 8"
+                               Margin="8 8 6 8"
                                Mouse.MouseDown="Image_MouseClick"
                                Cursor="Hand"
                                />
