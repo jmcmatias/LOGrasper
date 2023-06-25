@@ -41,6 +41,20 @@ public class SearchViewViewModel : ViewModelBase
 
     public ICommand SetNumberOfTasksCommand { get; }
 
+
+    public SearchViewViewModel()
+    {
+        GetSystemInfo();
+        _messageDispenser = string.Empty;
+        _stopwatch = string.Empty;
+        stopwatch = new();
+        RootFolderBrowseViewModel = new RootFolderBrowseViewModel(this);
+        KeywordListViewModel = new KeywordListViewModel(this);
+        OutputWindowViewModel = new OutputWindowViewModel(this, RootFolderBrowseViewModel);
+        SearchCommand = new SearchCommand(this);
+        SetNumberOfTasksCommand = new SetNumberOfTasksCommand(this);
+    }
+
     public int NumberOfTasks
     {
         get { return _numberOfTasks; }
@@ -176,19 +190,6 @@ public class SearchViewViewModel : ViewModelBase
         SystemInfo = "Average Completed SearchTasks/Second: " + Math.Round(go.GetTotalSearchTasks() / stopwatch.Elapsed.TotalSeconds, 2);
     }
 
-    public SearchViewViewModel()
-    {
-        GetSystemInfo();
-        _messageDispenser = string.Empty;
-        _stopwatch = string.Empty;
-        stopwatch = new();
-        RootFolderBrowseViewModel = new RootFolderBrowseViewModel(this);
-        KeywordListViewModel = new KeywordListViewModel(this);
-        OutputWindowViewModel = new OutputWindowViewModel(this, RootFolderBrowseViewModel);
-        SearchCommand = new SearchCommand(this);
-        SetNumberOfTasksCommand = new SetNumberOfTasksCommand(this);
-
-    }
 
     public void GetDirectoryStatistics()
     {
