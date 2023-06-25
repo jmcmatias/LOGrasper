@@ -9,8 +9,6 @@ namespace LOGrasper.Commands
 {
     internal class DeleteKeywordCommand : CommandBase
     {
-        // private readonly KeywordListViewModel _keywordListViewModel; // Viewmodel instance
-
         private readonly KeywordListViewModel _keywordListViewModel;
         private readonly SearchViewViewModel _searchViewViewModel;
         private bool _hasSelection;
@@ -27,41 +25,42 @@ namespace LOGrasper.Commands
             _searchViewViewModel = searchViewViewModel;
 
             _keywordListViewModel.PropertyChanged += keywordListViewModel_PropertyChanged;
-
         }
 
+        // Event handler for the SelectedKeyword property changed event
         private void keywordListViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(_keywordListViewModel.SelectedKeyword))
+            if (e.PropertyName == nameof(_keywordListViewModel.SelectedKeyword))
             {
                 if (_keywordListViewModel.SelectedKeyword != null)
                 {
                     HasSelection = true;
                     OnCanExecuteChanged();
-                } 
+                }
                 else
                 {
-                    HasSelection = false; 
+                    HasSelection = false;
                     OnCanExecuteChanged();
                 }
             }
         }
 
+        // Determines if the command can be executed
         public override bool CanExecute(object? parameter)
         {
             return HasSelection;
         }
 
+        // Executes the command
         public override void Execute(object? parameter)
         {
             _keywordListViewModel._keywordList.Remove((_keywordListViewModel.SelectedKeyword));
             if (!_keywordListViewModel._keywordList.Any())
             {
-               _searchViewViewModel.HasKeywordList = false;
+                _searchViewViewModel.HasKeywordList = false;
             }
             _searchViewViewModel.MessageDispenser = "";
             _searchViewViewModel.MessageDispenser = "Keyword Deleted";
         }
-
     }
 }

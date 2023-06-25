@@ -7,11 +7,8 @@ namespace LOGrasper.Commands
 {
     internal class AddKeywordCommand : CommandBase
     {
-        // private readonly KeywordListViewModel _keywordListViewModel; // Viewmodel instance
-
         private readonly KeywordListViewModel _keywordListViewModel;
         private readonly SearchViewViewModel _searchViewViewmodel;
-
 
         public AddKeywordCommand(KeywordListViewModel KeywordListViewModel, SearchViewViewModel searchViewViewmodel)
         {
@@ -20,8 +17,6 @@ namespace LOGrasper.Commands
             _keywordListViewModel.PropertyChanged += keywordListViewModel_PropertyChanged;
 
         }
-
-
 
         public override void Execute(object? parameter)
         {
@@ -81,6 +76,5 @@ namespace LOGrasper.Commands
                 OnCanExecuteChanged();
             }
         }
-
     }
 }

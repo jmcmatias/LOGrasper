@@ -5,39 +5,38 @@ namespace LOGrasper.Commands
 {
     internal class SearchCommand : CommandBase
     {
-
-
-
         private readonly SearchViewViewModel _searchViewViewModel;
         private readonly RootFolderBrowseViewModel _rootFolderBrowseViewModel;
         private readonly KeywordListViewModel _keywordListViewModel;
 
-        public SearchCommand(SearchViewViewModel searchViewViewModel) 
+        public SearchCommand(SearchViewViewModel searchViewViewModel)
         {
             _searchViewViewModel = searchViewViewModel;
             _rootFolderBrowseViewModel = _searchViewViewModel.RootFolderBrowseViewModel;
             _keywordListViewModel = _searchViewViewModel.KeywordListViewModel;
 
             _searchViewViewModel.PropertyChanged += _searchViewViewmodel_PropertyChanged;
-
         }
 
+        // Event handler for property changed events in the SearchViewViewModel
         private void _searchViewViewmodel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
+            // Checks if the properties HasKeywordList or HasRootFolder have changed
             if (e.PropertyName == nameof(_searchViewViewModel.HasKeywordList) || e.PropertyName == nameof(_searchViewViewModel.HasRootFolder))
             {
                 OnCanExecuteChanged();
-            }          
+            }
         }
 
+        // Determines whether the command can be executed
         public override bool CanExecute(object? parameter)
         {
             return _searchViewViewModel.HasKeywordList && _searchViewViewModel.HasRootFolder;
         }
 
+        // Executes the command
         public override void Execute(object? parameter)
         {
-           
             if (_searchViewViewModel.SearchButton == "SEARCH")
             {
                 _searchViewViewModel.OutputWindowViewModel.ClearOutput();
@@ -45,7 +44,8 @@ namespace LOGrasper.Commands
                 _ = _searchViewViewModel.InitiateAsyncSearch(_rootFolderBrowseViewModel, _keywordListViewModel);
                 _searchViewViewModel.SearchButton = "STOP SEARCH";
                 _searchViewViewModel.SearchButtonColor = "#fc7474";
-            } else if (_searchViewViewModel.SearchButton == "STOP SEARCH")
+            }
+            else if (_searchViewViewModel.SearchButton == "STOP SEARCH")
             {
                 _searchViewViewModel.CancellationFlag = true;
             }

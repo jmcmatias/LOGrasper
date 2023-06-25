@@ -13,11 +13,13 @@ namespace LOGrasper.ViewModels
         private string _rootFolderPath;
         private bool _folderExists = false;
 
+        // Variables for directory statistics
         public long totalSizeBytes = 0;
         public int folderCount = 0;
         public int fileCount = 0;
         private double _totalSizeMB = 0;
 
+        // Property for binding the root folder path
         public string RootFolderPath
         {
             get { return _rootFolderPath; }
@@ -28,37 +30,40 @@ namespace LOGrasper.ViewModels
             }
         }
 
+        // Property for indicating if the folder exists
         public bool FolderExists
         {
             get { return _folderExists; }
             set
             {
-                _folderExists = value; 
+                _folderExists = value;
                 OnPropertyChanged(nameof(FolderExists));
             }
         }
 
+        // Property for binding the total size in megabytes
         public double TotalSizeMB
         {
             get { return _totalSizeMB; }
             set
             {
                 _totalSizeMB = value;
-                OnPropertyChanged(nameof(TotalSizeMB)); 
+                OnPropertyChanged(nameof(TotalSizeMB));
             }
         }
+
+        // Command for browsing the root folder
         public ICommand RootFolderBrowseCommand { get; }
 
-
-        public RootFolderBrowseViewModel(SearchViewViewModel searchViewViewmodel) 
+        // Constructor
+        public RootFolderBrowseViewModel(SearchViewViewModel searchViewViewmodel)
         {
             _searchViewViewModel = searchViewViewmodel;
             RootFolderPath = "Please Select Root Folder";
             RootFolderBrowseCommand = new RootFolderBrowseCommand(this, searchViewViewmodel);
-
         }
 
-
+        // Method for calculating directory statistics
         public void CalculateDirectoryStats(string directoryPath, ref long totalSizeBytes, ref int folderCount, ref int fileCount)
         {
             try
@@ -91,11 +96,13 @@ namespace LOGrasper.ViewModels
             }
         }
 
+        // Method for converting bytes to megabytes
         public double ConvertBytesToMegabytes(long bytes)
         {
             return (bytes / 1024f) / 1024f;
         }
 
+        // Method for getting the total number of files selected
         public int GetTotalFilesSelected()
         {
             return fileCount;

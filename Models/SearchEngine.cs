@@ -125,7 +125,7 @@ namespace LOGrasper.Models
                         while ((line = reader.ReadLine()) != null && !searchViewViewModel.CancellationFlag)
                         {
                             string lightContent = string.Empty;
-                            List<Tuple<int, string>>? matches = ac.Search(line);
+                            List<Tuple<int, string>>? matches = ac.Search(line,kwList);
                                                         
                             // Check if all keywords where found
                             if (matches != null && kwList.All(item => matches.Any(tuple => tuple.Item2 == item)))
