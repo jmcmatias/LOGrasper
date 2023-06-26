@@ -13,7 +13,7 @@ namespace LOGrasper.Views
         }
 
         /// <summary>
-        /// Method to keep the entries for the TextInput of the  numerical and > 1
+        /// Method to keep the entries for the TextInput numerical and > 1
         /// </summary>
         private void IntegerUpDown_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
