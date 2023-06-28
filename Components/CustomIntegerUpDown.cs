@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using Xceed.Wpf.Toolkit;
+﻿using Xceed.Wpf.Toolkit;
 
 namespace LOGrasper.Components
 {

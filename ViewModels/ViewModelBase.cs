@@ -9,12 +9,12 @@ namespace LOGrasper.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged; // Cada vez que uma propriedade mudar, gera um evento para que a ViewModel saiba
+        public event PropertyChangedEventHandler? PropertyChanged; // Event that notifies when a property value has changed
 
-        protected void OnPropertyChanged(string? propertyName = null) // se a propertyName for null a UI vai apanhar tudo
+        protected void OnPropertyChanged(string? propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));  // Raises the PropertyChanged event, notifying subscribers that a property has changed
+
         }
-        
     }
 }

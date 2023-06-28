@@ -1,28 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace LOGrasper.Commands
-{ 
+{
     public abstract class CommandBase : ICommand
     {
+        public event EventHandler? CanExecuteChanged; // Eventhandler to notifie when the command executability has changed
 
-#pragma warning disable CS8612 // A anulabilidade de tipos de referência em tipo não corresponde ao membro implicitamente implementado.
-        public event EventHandler? CanExecuteChanged;    // Gera o evento sempre que
-
-        public virtual bool CanExecute(object? parameter)  // can execute fosse retornar um valor diferente, caso retorne false o botão fica desativado.
+        public virtual bool CanExecute(object? parameter)
         {
-            return true;
+            return true; // The command is always executable by deafault
         }
 
-        public abstract void Execute(object? parameter);
+        public abstract void Execute(object? parameter); // Abstract method that represents the action to be executed by the command
 
         protected virtual void OnCanExecuteChanged()
         {
-            CanExecuteChanged?.Invoke(this, new EventArgs());
+            CanExecuteChanged?.Invoke(this, new EventArgs()); // Raises the CanExecuteChanged event, notifying subscribers
         }
     }
 }
