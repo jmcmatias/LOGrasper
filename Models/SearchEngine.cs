@@ -87,7 +87,7 @@ namespace LOGrasper.Models
             });
         }
 
-        // Recursive method to search for files in a given folder and its subfolders
+        // Recursive async task to search for files in a given folder and its subfolders
         static async Task<Task> SearchFilesInFolder(string folder, OutputObject outputObject, List<string> kwList, AhoCorasick ac, OutputWindowViewModel outputWindowViewModel, SearchViewViewModel searchViewViewModel)
         {
             try
