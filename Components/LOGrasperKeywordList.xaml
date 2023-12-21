@@ -156,9 +156,13 @@
                                                 Width="auto" 
                                                 MinWidth="275" 
                                                 CanUserReorder="False" 
-                                                IsReadOnly="True"
-                                                
-                                                />
+                                                IsReadOnly="True">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{Binding KeywordColor}" />
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
                                 </DataGrid.Columns>
 
                                 <DataGrid.RowStyle>
@@ -166,7 +170,6 @@
                                         <Setter Property="Background" Value="#fffaff" />
                                         <Setter Property="BorderThickness" Value="2" />
                                         <Setter Property="Width" Value="auto"/>
-
                                         <Style.Triggers>
                                             <Trigger Property="IsSelected" Value="True">
                                                 <Setter Property="Background" Value="{StaticResource SelectedRow}" />
@@ -205,6 +208,19 @@
                     Name="Delete" 
                     Grid.Column="1" 
                     Content="DELETE" 
+                    Margin="5 0 5 5"  
+                    Height="30"
+                    FontWeight="Bold">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="4"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Command="{Binding NotKeywordCommand}"
+                    Name="Not" 
+                    Grid.Column="2" 
+                    Content="NOT" 
                     Margin="5 0 5 5"  
                     Height="30"
                     FontWeight="Bold">
