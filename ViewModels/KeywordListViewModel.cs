@@ -29,16 +29,20 @@ public class KeywordListViewModel : ViewModelBase
 
     private bool _notEmpty = false;
 
+    private string _Info = "PLEASE NOTICE: Keywords are CASE SENSITIVE.\n" +
+                           "LOGrasper will only output Lines that contain ALL the Keywords in this List.\n" +
+                           "LEGEND:\n" +
+                           "Green - Keywords to search.\n" +
+                           "Red - Not Clause, invalidate lines that contain keyword.";
     private string _AddButton = "ADD";
     private string _AddButtonColor = "#FEB1FE";
     private int _AddButtonSize = 40;
-    private bool _NotClause = false;
 
     private SolidColorBrush _KeywordColor = new SolidColorBrush(Colors.ForestGreen);
 
     public SolidColorBrush _StandardKeywordColor = new SolidColorBrush(Colors.ForestGreen);  // Dark Green
     public SolidColorBrush _HasNotClauseColor = new SolidColorBrush(Colors.DarkRed); // Dark Red
-
+    
     public ObservableCollection<KeywordViewModel> _keywordList;
 
     public IEnumerable<KeywordViewModel> KeywordList => _keywordList;
@@ -127,6 +131,11 @@ public class KeywordListViewModel : ViewModelBase
         }
     }
 
+    public string Info
+    {
+        get => _Info;
+    }
+
     public SolidColorBrush KeywordColor
     {
         get => _KeywordColor;
@@ -142,7 +151,6 @@ public class KeywordListViewModel : ViewModelBase
     public KeywordListViewModel(SearchViewViewModel searchViewViewmodel)
     {
         _keywordList = new ObservableCollection<KeywordViewModel>();
-        //OnPropertyChanged(nameof(_keywordList));
         AddKeywordCommand = new AddKeywordCommand(this, searchViewViewmodel);
         DeleteKeywordCommand = new DeleteKeywordCommand(this, searchViewViewmodel);
         EditKeywordCommand = new EditKeywordCommand(this, searchViewViewmodel);

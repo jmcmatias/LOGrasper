@@ -117,9 +117,14 @@ public class OutputWindowViewModel : ViewModelBase
                 TextWriter tw = new StreamWriter(filename);
 
                 tw.WriteLine("Search took " + stopwatch + " to search the keywords:");
-                foreach (string kw in _searchViewViewModel.SearchObject._keywordList)
-                {
-                    tw.WriteLine("-" + kw);
+                foreach (KeywordViewModel kw in _searchViewViewModel.SearchObject._keywordList)
+                {                    
+                    tw.Write(" - " + kw.Keyword);
+                    if (kw.IsNot)
+                    {
+                        tw.Write(" =>[NOT]");
+                    }
+                    tw.WriteLine();
                 }
 
                 tw.WriteLine("From a total of " + Math.Ceiling(_rootFolderBrowseViewModel.TotalSizeMB) + " MB");

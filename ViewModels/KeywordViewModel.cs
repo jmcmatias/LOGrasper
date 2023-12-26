@@ -22,7 +22,7 @@ namespace LOGrasper.ViewModels
             set
             {
                 _keyword = value;
-                _keywordColor = new SolidColorBrush(Colors.DarkOliveGreen); // Initialize with default color
+                _keywordColor = new SolidColorBrush(Colors.ForestGreen); ; // Initialize with default color
             }
         }
 
@@ -38,7 +38,7 @@ namespace LOGrasper.ViewModels
         public KeywordViewModel(string Keyword)
         {
             _keyword = Keyword;
-            _keywordColor = new SolidColorBrush(Colors.DarkOliveGreen); // Initialize with default color
+            _keywordColor = new SolidColorBrush(Colors.ForestGreen);  // Initialize with default color
         }
 
         public SolidColorBrush KeywordColor
