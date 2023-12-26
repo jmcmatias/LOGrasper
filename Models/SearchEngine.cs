@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Windows.Storage;
 using static LOGrasper.Models.OutputObject;
 
 namespace LOGrasper.Models
@@ -63,7 +64,7 @@ namespace LOGrasper.Models
             AhoCorasick? ac = new();
 
             // Add keywords to the AhoCorasick Automaton
-            foreach (string kw in SearchObject._keywordList)
+            foreach (KeywordViewModel kw in SearchObject._keywordList)
             {
                 ac.AddKeyword(kw);
             }
@@ -88,7 +89,7 @@ namespace LOGrasper.Models
         }
 
         // Recursive async task to search for files in a given folder and its subfolders
-        static async Task<Task> SearchFilesInFolder(string folder, OutputObject outputObject, List<string> kwList, AhoCorasick ac, OutputWindowViewModel outputWindowViewModel, SearchViewViewModel searchViewViewModel)
+        static async Task<Task> SearchFilesInFolder(string folder, OutputObject outputObject, ObservableCollection<KeywordViewModel> kwList, AhoCorasick ac, OutputWindowViewModel outputWindowViewModel, SearchViewViewModel searchViewViewModel)
         {
             try
             {
@@ -145,24 +146,29 @@ namespace LOGrasper.Models
                             string lightContent = string.Empty;
 
                             // Search for matches using AhoCorasick
-                            List<Tuple<int, string>>? matches = ac.Search(line, kwList);
+                            List<Tuple<int, KeywordViewModel>>? matches = ac.Search(line, kwList);
 
-                            // Check if all keywords were found in the line
-                            if (matches != null && kwList.All(item => matches.Any(tuple => tuple.Item2 == item)))
+                            // If there are matches add line else go to next line
+                            if (matches != null && matches.Count!=0)
                             {
-                                if (line.Length > maxLineSize)
+                                // Check if all keywords were found in the line
+                                
+                                if (matches != null && kwList.Where(item => !item.IsNot).All(item => matches.Any(tuple => tuple.Item2.Keyword == item.Keyword)))
                                 {
-                                    lightContent = line[..maxLineSize] + "\n !!! ATTENTION ... Line length was too big and was clipped for performance issues, if you save the output, you will get the full line, thank you ... ATTENTION !!!";
-                                }
-                                else
-                                {
-                                    lightContent = line;
-                                }
+                                    if (line.Length > maxLineSize)
+                                    {
+                                        lightContent = line[..maxLineSize] + "\n !!! ATTENTION ... Line length was too big and was clipped for performance issues, if you save the output, you will get the full line, thank you ... ATTENTION !!!";
+                                    }
+                                    else
+                                    {
+                                        lightContent = line;
+                                    }
 
-                                // Create a LineInfo object and add it to the collection
-                                FoundInFile.LineInfo lineinfo = new FoundInFile.LineInfo(n, line, lightContent);
-                                lines.Add(lineinfo);
-                                lineFound = true;
+                                    // Create a LineInfo object and add it to the collection
+                                    FoundInFile.LineInfo lineinfo = new FoundInFile.LineInfo(n, line, lightContent);
+                                    lines.Add(lineinfo);
+                                    lineFound = true;
+                                }
                             }
 
                             n++;

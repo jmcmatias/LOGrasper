@@ -90,7 +90,7 @@
 
                 <TextBox x:Name="Notice"
                          Grid.Row="1" 
-                         Text="PLEASE NOTICE: Keywords are CASE SENSITIVE.&#x0a;LOGrasper will only output Lines that contain ALL the Keywords in this List." 
+                         Text="{Binding Info, Mode=OneWay}" 
                          Margin="0 0 0 5" 
                          FontSize="12" 
                          Width="Auto" 
@@ -156,9 +156,13 @@
                                                 Width="auto" 
                                                 MinWidth="275" 
                                                 CanUserReorder="False" 
-                                                IsReadOnly="True"
-                                                
-                                                />
+                                                IsReadOnly="True">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{Binding KeywordColor}" />
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
                                 </DataGrid.Columns>
 
                                 <DataGrid.RowStyle>
@@ -166,7 +170,6 @@
                                         <Setter Property="Background" Value="#fffaff" />
                                         <Setter Property="BorderThickness" Value="2" />
                                         <Setter Property="Width" Value="auto"/>
-
                                         <Style.Triggers>
                                             <Trigger Property="IsSelected" Value="True">
                                                 <Setter Property="Background" Value="{StaticResource SelectedRow}" />
@@ -192,7 +195,7 @@
                     Name="Edit" 
                     Grid.Column="0" 
                     Content="EDIT" 
-                    Margin="5 0 0 5"  
+                    Margin="5 -1 0 5"  
                     Height="30"
                     FontWeight="Bold">
                 <Button.Resources>
@@ -205,7 +208,20 @@
                     Name="Delete" 
                     Grid.Column="1" 
                     Content="DELETE" 
-                    Margin="5 0 5 5"  
+                    Margin="5 -1 5 5"  
+                    Height="30"
+                    FontWeight="Bold">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="4"></Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Command="{Binding NotKeywordCommand}"
+                    Name="Not" 
+                    Grid.Column="2" 
+                    Content="NOT" 
+                    Margin="25 -1 0 5"  
                     Height="30"
                     FontWeight="Bold">
                 <Button.Resources>

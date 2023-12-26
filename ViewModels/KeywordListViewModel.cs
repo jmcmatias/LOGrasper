@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Documents;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace LOGrasper.ViewModels;
 
@@ -28,10 +29,20 @@ public class KeywordListViewModel : ViewModelBase
 
     private bool _notEmpty = false;
 
+    private string _Info = "PLEASE NOTICE: Keywords are CASE SENSITIVE.\n" +
+                           "LOGrasper will only output Lines that contain ALL the Keywords in this List.\n" +
+                           "LEGEND:\n" +
+                           "Green - Keywords to search.\n" +
+                           "Red - Not Clause, invalidate lines that contain keyword.";
     private string _AddButton = "ADD";
     private string _AddButtonColor = "#FEB1FE";
     private int _AddButtonSize = 40;
 
+    private SolidColorBrush _KeywordColor = new SolidColorBrush(Colors.ForestGreen);
+
+    public SolidColorBrush _StandardKeywordColor = new SolidColorBrush(Colors.ForestGreen);  // Dark Green
+    public SolidColorBrush _HasNotClauseColor = new SolidColorBrush(Colors.DarkRed); // Dark Red
+    
     public ObservableCollection<KeywordViewModel> _keywordList;
 
     public IEnumerable<KeywordViewModel> KeywordList => _keywordList;
@@ -40,6 +51,7 @@ public class KeywordListViewModel : ViewModelBase
     public ICommand AddKeywordCommand { get; }
     public ICommand DeleteKeywordCommand { get; }
     public ICommand EditKeywordCommand { get; }
+    public ICommand NotKeywordCommand { get; }
 
     public string NewKeyword
     {
@@ -119,22 +131,38 @@ public class KeywordListViewModel : ViewModelBase
         }
     }
 
+    public string Info
+    {
+        get => _Info;
+    }
+
+    public SolidColorBrush KeywordColor
+    {
+        get => _KeywordColor;
+        set
+        {
+            _KeywordColor = value;
+            OnPropertyChanged(nameof(_KeywordColor));
+        }
+    }
+
     //KeywordList display
 
     public KeywordListViewModel(SearchViewViewModel searchViewViewmodel)
     {
         _keywordList = new ObservableCollection<KeywordViewModel>();
-        //OnPropertyChanged(nameof(_keywordList));
         AddKeywordCommand = new AddKeywordCommand(this, searchViewViewmodel);
         DeleteKeywordCommand = new DeleteKeywordCommand(this, searchViewViewmodel);
         EditKeywordCommand = new EditKeywordCommand(this, searchViewViewmodel);
+        NotKeywordCommand = new NotKeywordCommand(this, searchViewViewmodel);
     }
 
-    public KeywordListViewModel(ICommand addKeywordCommand, ICommand deleteKeywordCommand, ICommand editKeywordCommand)
+    public KeywordListViewModel(ICommand addKeywordCommand, ICommand deleteKeywordCommand, ICommand editKeywordCommand, ICommand notKeywordCommand)
     {
         AddKeywordCommand = addKeywordCommand;
         DeleteKeywordCommand = deleteKeywordCommand;
         EditKeywordCommand = editKeywordCommand;
+        NotKeywordCommand = notKeywordCommand;
     }
 
     public void EditingButton()
@@ -150,6 +178,17 @@ public class KeywordListViewModel : ViewModelBase
         AddButtonColor = "#FEB1FE";
         AddButtonSize = 40;
     }
+
+    public void NotClauseColor()
+    {
+        KeywordColor = _HasNotClauseColor;
+    }
+
+    public void FontColor()
+    {
+        KeywordColor = _StandardKeywordColor;
+    }
+
 
     public bool KeywordExists(string keyword)
     {

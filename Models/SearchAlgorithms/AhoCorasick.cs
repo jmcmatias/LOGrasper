@@ -1,5 +1,8 @@
-﻿using System;
+﻿using LOGrasper.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Drawing.Text;
 using System.Linq;
 
 namespace LOGrasper.Models.SearchAlgorithms
@@ -16,13 +19,13 @@ namespace LOGrasper.Models.SearchAlgorithms
         /// Add keyword to Automaton
         /// </summary>
         /// <param name="Keyword"></param>
-        public void AddKeyword(string Keyword)
+        public void AddKeyword(KeywordViewModel KeywordToAdd)
         {
             // Set start as the root node
             TrieNode currentNode = _root;
-
+            string kw = KeywordToAdd.Keyword;
             // For each character in the keyword
-            foreach (char c in Keyword)
+            foreach (char c in kw)
             {
                 // Check if the current character exists as child of the current node
                 if (!currentNode.Children.ContainsKey(c))
@@ -35,7 +38,8 @@ namespace LOGrasper.Models.SearchAlgorithms
             }
             // Set the current node as the end of a keyword
             currentNode.KeywordEnd.End = true;
-            currentNode.KeywordEnd.keyword = Keyword;
+            currentNode.KeywordEnd.keyword = KeywordToAdd.Keyword;
+            currentNode.KeywordEnd.HasNotClause = KeywordToAdd.IsNot;
         }
         /// <summary>
         /// Method for building AC Automaton from existing tree
@@ -94,13 +98,20 @@ namespace LOGrasper.Models.SearchAlgorithms
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
-        public List<Tuple<int, string>>? Search(string line,List<string> kwList)
+        public List<Tuple<int, KeywordViewModel>>? Search(string line, ObservableCollection<KeywordViewModel> kwList)
         {
             // Create a list to store the matches found
-            List<Tuple<int, string>>? matchesFound = new List<Tuple<int, string>>();
+            List<Tuple<int, KeywordViewModel>>? matchesFound = new List<Tuple<int, KeywordViewModel>>();
 
             // Start from the root node
             TrieNode currentNode = _root;
+            bool ListHasNotClause = false;
+
+            if (kwList.Where(item => item.IsNot).Count()>0)
+            {
+                ListHasNotClause = true;
+            }
+            
 
             // Iterate through each character in the line
             for (int i = 0; i < line.Length; i++)
@@ -122,14 +133,26 @@ namespace LOGrasper.Models.SearchAlgorithms
                     // Check if the current node represents the end of a keyword
                     if (currentNode.KeywordEnd.End)
                     {
-                        // Add a tuple to the list with the starting position of the match and the keyword itself
-                        matchesFound.Add(new Tuple<int, string>(i - currentNode.Depth + 1, currentNode.KeywordEnd.keyword));
-                        // Check if all keywords in kwList have been found
-                        if (matchesFound != null && kwList.All(item => matchesFound.Any(tuple => tuple.Item2 == item)))
+
+                        if (!currentNode.KeywordEnd.HasNotClause)
                         {
-                            // If all keywords have been found, return the matchesFound list
-                            return matchesFound;
+                            // Add a tuple to the list with the starting position of the match and the keyword itself
+                            matchesFound.Add(new Tuple<int, KeywordViewModel>(i - currentNode.Depth + 1, new KeywordViewModel(currentNode.KeywordEnd.keyword)));
+                            // Check if all keywords in kwList have been found
+                            if (matchesFound != null && kwList.Where(item => !item.IsNot).All(item => matchesFound.Any(tuple => (tuple.Item2.Keyword == item.Keyword))))
+                            {
+                                
+                                // If all keywords have been found, return the matchesFound list
+                                if(!ListHasNotClause)
+                                    return matchesFound;
+                            }
                         }
+                        else
+                        {
+                            matchesFound.Clear();
+                            return matchesFound;
+                        }                     
+                      
                     }
 
                 }
@@ -153,6 +176,7 @@ namespace LOGrasper.Models.SearchAlgorithms
             public bool End { get; set; }
             public bool AllKeywordsMatched { get; set; }
             public string? keyword { get; set; }
+            public bool HasNotClause { get; set; } 
         }
 
         public int Depth { get { return Parent == null ? 0 : Parent.Depth + 1; } }
